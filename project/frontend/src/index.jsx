@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/default.scss';
 import './index.scss';
-import { BrowserRouter } from 'react-router-dom';
 import { DefaultLayout } from './layout';
 import reportWebVitals from './reportWebVitals';
 
