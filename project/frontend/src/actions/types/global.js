@@ -1,3 +1,6 @@
 export const GLOBAL_LOGIN = 'GLOBAL_LOGIN';
 export const GLOBAL_LOGIN_SUCCESS = 'GLOBAL_LOGIN_SUCCESS';
 export const GLOBAL_LOGIN_FAIL = 'GLOBAL_LOGIN_FAIL';
+
+// component behaviors
+export const GLOBAL_CLOSE_TOAST = 'GLOBAL_CLOSE_TOAST';

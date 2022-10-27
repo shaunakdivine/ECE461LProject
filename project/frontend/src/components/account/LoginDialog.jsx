@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Form } from 'react-bootstrap';
+import { Button, Card, Form, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function LoginDialog(props) {
-  const { onLogin } = props;
+  const { submitting, onLogin } = props;
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = event => {
@@ -37,7 +37,19 @@ function LoginDialog(props) {
           </Form.Group>
           <hr/>
           <div className="d-grid">
-            <Button variant='primary' type='submit'>Login</Button>
+            <Button variant='primary' type='submit'>
+              {
+                submitting
+                  ? <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  : 'Login'
+              }
+            </Button>
           </div>
           <div className='text-center mt-2'>
             <span className='text-muted small'>No account?</span>
@@ -51,6 +63,7 @@ function LoginDialog(props) {
 }
 
 LoginDialog.propTypes = {
+  submitting: PropTypes.bool.isRequired,
   onLogin: PropTypes.func.isRequired,
 }
 
