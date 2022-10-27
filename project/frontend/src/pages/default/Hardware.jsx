@@ -1,7 +1,7 @@
 import React from 'react';
-import { BasePage } from '../components/utility';
+import { BasePage } from '../../components/utility';
 
-function HardwarePage(props) {
+function HardwarePage() {
   return (
     <BasePage title='Hardware'>
       <div>put all the components here</div>

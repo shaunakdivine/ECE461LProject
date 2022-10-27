@@ -1,21 +1,21 @@
 import React from 'react';
-import './defaultLayout.scss';
+import styles from './defaultLayout.module.scss';
 import { Sidebar } from '../components/navigation';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {
   HardwarePage,
   HomePage,
   ProjectsPage,
   SettingsPage
-} from '../pages';
+} from '../pages/default';
 
 function DefaultLayout() {
   return (
-    <BrowserRouter>
-      <nav>
+    <>
+      <nav className={styles.nav}>
         <Sidebar />
       </nav>
-      <main>
+      <main className={styles.main}>
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/projects' element={<ProjectsPage />} />
@@ -23,7 +23,7 @@ function DefaultLayout() {
           <Route path='/settings' element={<SettingsPage />} />
         </Routes>
       </main>
-    </BrowserRouter>
+    </>
   )
 }
 

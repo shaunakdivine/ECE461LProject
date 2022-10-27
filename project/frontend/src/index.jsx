@@ -2,13 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './styles/default.scss';
 import './index.scss';
-import { DefaultLayout } from './layout';
+import { DefaultLayout, LoginLayout } from './layout';
+import { Provider } from 'react-redux';
+import store from './store';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <DefaultLayout /> 
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/account/*' element={<LoginLayout />} />
+          <Route path='/*' element={<DefaultLayout />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

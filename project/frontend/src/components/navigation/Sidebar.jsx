@@ -1,19 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
-import { Nav } from 'react-bootstrap';
+// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Button, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-// import { useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function Sidebar(props) {
-  // const location = useLocation();
+function ConnectSidebar(props) {
+  const { loggedIn } = props;
 
   return (
     <div className='w-100 d-flex flex-column flex-shrink-0 p-3 bg-light'>
-      <Link
-        to='/'
-        className='d-flex align-items-center me-md-auto link-dark text-decoration-none'>
-        <span className="fs-5 fw-semibold">ECE461L</span>
-      </Link>
+      <div className="fs-5 fw-semibold">ECE461L</div>
       <hr />
       <Nav
         className='flex-column mb-auto'
@@ -41,14 +38,30 @@ function Sidebar(props) {
         </Nav.Item>
       </Nav>
       <hr />
-      <div>
-        Han-Hsuan Lin
-        <div className='text-muted small'>hhl@utexas.edu</div>
-      </div>
+      {
+        loggedIn
+          ? <div>
+              Han-Hsuan Lin
+              <div className='text-muted small'>hhl@utexas.edu</div>
+            </div>
+          : <LinkContainer to='/account'>
+              <Button as='button' variant='secondary'>User Login</Button>
+            </LinkContainer>
+      }
     </div>
   )
 }
 
-Sidebar.propTypes = {}
+ConnectSidebar.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+}
 
-export { Sidebar }
+const mapStateToProps = (state) => ({
+  loading: state.global.loading,
+  loggedIn: state.global.loggedIn,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectSidebar);

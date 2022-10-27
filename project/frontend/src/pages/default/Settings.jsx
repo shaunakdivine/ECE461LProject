@@ -1,7 +1,7 @@
 import React from 'react';
-import { BasePage } from '../components/utility';
+import { BasePage } from '../../components/utility';
 
-function SettingsPage(props) {
+function SettingsPage() {
   return (
     <BasePage title='Settings'>
       <div>put all the components here</div>
