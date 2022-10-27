@@ -13,7 +13,6 @@ function ProjectsPage(props) {
         <button type = "button" class = "btn btn-outline-primary">search</button>
       </div> */}
       <div className="project-container">
-        <h1 className = "project-header"> Projects </h1>
         <div className="project-panel">
           <ProjectPanel projectName="Project 1"> Project 1</ProjectPanel>
           <ProjectPanel projectName="Project 2"> Project 2</ProjectPanel> 
