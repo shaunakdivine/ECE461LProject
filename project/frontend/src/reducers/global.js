@@ -17,7 +17,7 @@ export default (state = initialState, { type, payload }) => {
     return { ...state, loading: false, loggedIn: true }
 
   case GLOBAL_LOGIN_FAIL:
-    return { ...state, loading: false, errorToastShow: true, error: payload.error  }
+      return { ...state, loading: false, errorToastShow: true, error: payload.error }
 
   case GLOBAL_CLOSE_TOAST:
     return { ...state, errorToastShow: false }

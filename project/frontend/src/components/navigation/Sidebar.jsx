@@ -1,12 +1,26 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Button, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import PropTypes from 'prop-types';
+import { checkLogin } from '../../actions/global';
+import { useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 
 function ConnectSidebar(props) {
-  const { loggedIn } = props;
+  const { loggedIn, checkLogin } = props;
+  // const navigate = useNavigate();
+  
+  useEffect(() => {
+    checkLogin();
+  }, [])
+
+  // if not logged in, navigate to login page
+  // useEffect(() => {
+  //   if (!loggedIn) {
+  //     navigate('/account');
+  //   }
+  // }, [loggedIn]);
 
   return (
     <div className='w-100 d-flex flex-column flex-shrink-0 p-3 bg-light'>
@@ -53,15 +67,16 @@ function ConnectSidebar(props) {
 }
 
 ConnectSidebar.propTypes = {
-  loading: PropTypes.bool.isRequired,
   loggedIn: PropTypes.bool.isRequired,
+  checkLogin: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-  loading: state.global.loading,
   loggedIn: state.global.loggedIn,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  checkLogin,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectSidebar);
