@@ -9,7 +9,7 @@ function BaseSubPage(props) {
   return (
     <Container className="p-5">
       <Link to=".." relative='path'>Back</Link>
-      <div className='h2'>{title}</div>
+      <div className='h2 mb-4'>{title}</div>
       {props.children}
     </Container>
   )

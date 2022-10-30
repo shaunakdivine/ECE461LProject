@@ -7,7 +7,7 @@ function BasePage(props) {
 
   return (
     <Container className="p-5">
-      <div className='h2'>{ title }</div>
+      <div className='h2 mb-4'>{ title }</div>
       { props.children }
     </Container>
   )
