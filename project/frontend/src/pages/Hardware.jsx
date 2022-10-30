@@ -1,10 +1,15 @@
 import React from 'react';
+import HWPopUp from '../components/HWPopUp/HWPopUp';
 import { BasePage } from '../components/utility';
+import { Button } from 'bootstrap';
+
 
 function HardwarePage(props) {
+
   return (
+    
     <BasePage title='Hardware'>
-      <div>put all the components here</div>
+      <HWPopUp></HWPopUp>
     </BasePage>
   )
 }
