@@ -1,5 +1,5 @@
 import React from 'react';
-import { BasePage } from '../../components/utility';
+import { BasePage } from '../../../components/utility';
 
 function AboutPage() {
   return (

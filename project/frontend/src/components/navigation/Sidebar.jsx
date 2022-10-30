@@ -5,11 +5,14 @@ import { LinkContainer } from 'react-router-bootstrap';
 import PropTypes from 'prop-types';
 import { checkLogin } from '../../actions/global';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 function ConnectSidebar(props) {
   const { loggedIn, checkLogin } = props;
   // const navigate = useNavigate();
+  const location = useLocation();
+  const isActive = (route) => location.pathname.includes(route);
   
   useEffect(() => {
     checkLogin();
@@ -32,27 +35,27 @@ function ConnectSidebar(props) {
         as='ul'>
         <Nav.Item as='li'>
           <LinkContainer to='/'>
-            <Nav.Link>Home</Nav.Link>
+            <Nav.Link active={location.pathname === '/'}>Home</Nav.Link>
           </LinkContainer>
         </Nav.Item>
         <Nav.Item as='li'>
           <LinkContainer to='/projects'>
-            <Nav.Link>Projects</Nav.Link>
+            <Nav.Link active={isActive('/projects')}>Projects</Nav.Link>
           </LinkContainer>
         </Nav.Item>
         <Nav.Item as='li'>
           <LinkContainer to='/hardware'>
-            <Nav.Link>Hardware</Nav.Link>
+            <Nav.Link active={isActive('/hardware')}>Hardware</Nav.Link>
           </LinkContainer>
         </Nav.Item>
         <Nav.Item as='li'>
           <LinkContainer to='/settings'>
-            <Nav.Link>Settings</Nav.Link>
+            <Nav.Link active={isActive('/settings')}>Settings</Nav.Link>
           </LinkContainer>
         </Nav.Item>
         <Nav.Item as='li'>
           <LinkContainer to='/about'>
-            <Nav.Link>About</Nav.Link>
+            <Nav.Link active={isActive('/about')}>About</Nav.Link>
           </LinkContainer>
         </Nav.Item>
       </Nav>
