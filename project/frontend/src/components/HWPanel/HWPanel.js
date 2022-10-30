@@ -1,6 +1,5 @@
 
 import Button from 'react-bootstrap/Button';
-import { InputGroup } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HWPanel.css';
 import React from 'react';
