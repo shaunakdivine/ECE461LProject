@@ -28,16 +28,16 @@ function LoginDialog(props) {
       <Card.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group className='mb-3' controlId='login-email'>
-            <Form.Control type='email' name='f-email' placeholder='Email' required />
+            <Form.Control type='email' name='f-email' placeholder='Email' disabled={submitting} required />
             <Form.Control.Feedback type='invalid'>Please enter a valid email.</Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId='login-pwd'>
-            <Form.Control type='password' name='f-pwd' placeholder='Password' required />
+            <Form.Control type='password' name='f-pwd' placeholder='Password' disabled={submitting} required />
             <Form.Control.Feedback type='invalid'>Please enter your password.</Form.Control.Feedback>
           </Form.Group>
           <hr/>
           <div className="d-grid">
-            <Button variant='primary' type='submit'>
+            <Button variant='primary' type='submit' disabled={submitting}>
               {
                 submitting
                   ? <Spinner
