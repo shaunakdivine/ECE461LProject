@@ -50,6 +50,11 @@ function ConnectSidebar(props) {
             <Nav.Link>Settings</Nav.Link>
           </LinkContainer>
         </Nav.Item>
+        <Nav.Item as='li'>
+          <LinkContainer to='/about'>
+            <Nav.Link>About</Nav.Link>
+          </LinkContainer>
+        </Nav.Item>
       </Nav>
       <hr />
       {
