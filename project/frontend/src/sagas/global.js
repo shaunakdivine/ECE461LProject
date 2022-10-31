@@ -2,13 +2,13 @@ import { call, put } from "redux-saga/effects";
 import { sha256 } from 'js-sha256';
 import { loginAPI, logoutAPI, registerAPI } from "../apis/global";
 import { 
+  GLOBAL_LOGIN,
   GLOBAL_LOGIN_FAIL,
   GLOBAL_LOGIN_SUCCESS,
   GLOBAL_LOGOUT_FAIL,
   GLOBAL_LOGOUT_SUCCESS,
   GLOBAL_REGISTER_FAIL,
-  GLOBAL_REGISTER_SUCCESS
- } from "../actions/types/global";
+} from "../actions/types/global";
 import { dummyTimeAPI } from "../apis/test";
 
 export function* globalCheckLogin() {
@@ -26,12 +26,10 @@ export function* globalLogin(action) {
   }
 
   try {
-    // test 
-    yield call(dummyTimeAPI, 2000);
     const response = yield call(loginAPI, body);
 
-    if (response.status === 'ok') {
-      localStorage.setItem('__token', response.data);
+    if (response.status) {
+      localStorage.setItem('__token', response.data.token);
       yield put({ type: GLOBAL_LOGIN_SUCCESS });
     } else {
       yield put({ type: GLOBAL_LOGIN_FAIL, payload: { error: response.error } });
@@ -45,8 +43,6 @@ export function* globalLogout(action) {
   const { email } = action.payload;
 
   try {
-    // test 
-    yield call(dummyTimeAPI, 2000);
     const response = yield call(logoutAPI, { email });
 
     if (response.status === 'ok') {
@@ -66,11 +62,10 @@ export function* globalRegister(action) {
   try {
     // test 
     yield call(dummyTimeAPI, 2000);
-    const response = yield call(registerAPI, body);
+    const response = yield call(registerAPI, { ...body, password: sha256(body.password) });
 
-    if (response.status === 'ok') {
-      localStorage.setItem('__token');
-      yield put({ type: GLOBAL_REGISTER_SUCCESS });
+    if (response.status) {
+      yield put({ type: GLOBAL_LOGIN, payload: { email: body.email, pwd: body.password } });
     } else {
       yield put({ type: GLOBAL_REGISTER_FAIL, payload: { error: response.error } });
     }

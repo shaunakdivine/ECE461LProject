@@ -8,7 +8,6 @@ import {
   GLOBAL_LOGOUT_SUCCESS,
   GLOBAL_REGISTER,
   GLOBAL_REGISTER_FAIL,
-  GLOBAL_REGISTER_SUCCESS
 } from "../actions/types/global";
 
 const initialState = {
@@ -27,7 +26,6 @@ export default (state = initialState, { type, payload }) => {
     return { ...state, loading: true }
 
   case GLOBAL_LOGIN_SUCCESS:
-  case GLOBAL_REGISTER_SUCCESS:
     return { ...state, loading: false, loggedIn: true }
 
   case GLOBAL_LOGOUT_SUCCESS:
