@@ -23,7 +23,7 @@ class HWPopUp extends React.Component {
             </Button>
             <Modal show={this.state.isOpen} onHide={this.closeModal}>
               <Modal.Header closeButton>
-                <Modal.Title>Hardware Details for Project X</Modal.Title>
+                <Modal.Title>Hardware Details for Project 1</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <div className="HWPanel-container">
