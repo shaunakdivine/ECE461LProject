@@ -1,10 +1,10 @@
 // import './Projects.css';
 import React from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import StatusButton from '../StatusButton/StatusButton';
+import StatusButton from './StatusButton';
 // import ProjectContent from '../ProjectContent/ProjectContent';
 import PropTypes from 'prop-types';
-import HWPanel from '../HWPanel/HWPanel';
+import HWPanel from '../hardware/HWPanel';
 // import ProjectContent from '../ProjectContent/ProjectContent';
 
 function ProjectPanel(props) {
