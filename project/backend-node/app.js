@@ -23,6 +23,6 @@ app.get('*', (req, res) => {
 });
 
 //This is the port number below (David Gross)
-app.listen(5001, () => {
+app.listen(80, () => {
     console.log("Server Started");
 });
