@@ -1,3 +1,11 @@
+from pymongo import MongoClient
+
+Client = MongoClient("mongodb+srv://davidgross461L:Dg123456@cluster0.7qbmil3.mongodb.net/?retryWrites=true&w=majority")
+
+database = Client.get_default_database()
+
+collectionOne = database["HWSet"]
+
 class HWSet:
 
     def __init__(self, qty):
