@@ -4,7 +4,7 @@ import { BasePage } from '../../../components/utility';
 function SettingsPage() {
   return (
     <BasePage title='Settings'>
-      <div>put all the components here</div>
+      <div>Coming soon</div>
     </BasePage>
   )
 }
