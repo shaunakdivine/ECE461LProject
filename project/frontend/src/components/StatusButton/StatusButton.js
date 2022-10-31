@@ -1,29 +1,22 @@
-
 import React from 'react';
-import {useState} from 'react';
-import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import { useState } from 'react';
+import { Button } from 'react-bootstrap';
 
 function StatusButton() {
-    // const initialText = props.initialText
-    const [buttonText, setButtonText] = useState("Join");
-    // const isJoined = props.isJoined
-
-
-    // function handleClick(){
-
-    //     setButtonText('Leave');
-
-    //     setTimeout(() => {
-    //         setButtonText(initialText);
-    //       }, 1000); 
-    //     }
-    
+  const [joined, setJoined] = useState(false);
 
       return (
-        <div>
-          <Button onClick={() => setButtonText("Leave")}>{buttonText}</Button>
+        <div className='w-100'>
+          <Button
+            className='w-100'
+            variant={ joined ? 'danger' : 'primary'}
+            onClick={() => setJoined(prev => !prev)}>
+            {
+              joined
+              ? 'Leave'
+              : 'Join'
+            }
+          </Button>
         </div>
       );
 

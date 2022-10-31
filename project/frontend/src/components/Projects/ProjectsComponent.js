@@ -21,7 +21,7 @@ function ProjectPanel(props) {
             <HWPanel className='mb-3' />
             <HWPanel />
           </Col>
-          <Col md='auto'>
+          <Col className='justify-content-center' md={1}>
             <StatusButton isJoined={true} initialText="Join"></StatusButton>
           </Col>
         </Row>
