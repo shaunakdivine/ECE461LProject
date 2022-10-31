@@ -16,7 +16,7 @@ function ProjectContent(props){
     const [jlBut, setjlBut] = useState("Join");
         return (
             <div>
-                <div style={{ marginLeft: '5%', marginTop: '60px', width: '95%' }}>
+                <div style={{ marginLeft: '5%', marginTop: '60px', width: '95%'}}>
                     <Container class="p-3 mb-2 bg-info text-white">
                         <h2>Project Name {projectNum}- 
                             <Button 

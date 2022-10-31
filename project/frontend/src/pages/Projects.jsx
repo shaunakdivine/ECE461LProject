@@ -4,6 +4,7 @@ import { Button, Containers,  ButtonGroup, DropdownButton, MenuItem } from 'reac
 import { Container } from 'react-bootstrap';
 import ProjectPanel from '../components/Projects/ProjectsComponent';
 import ProjectContent from '../components/ProjectContent/ProjectContent'
+import CreateProjectPopUp from "../components/CreateProjectPopUp/CreateProjectPopUp"
 
 
 function ProjectsPage(props) {
@@ -12,6 +13,13 @@ function ProjectsPage(props) {
       <div class = "container-fluid"> 
         <input type = "search" class = "form-control rounder"  placeholder = "Search" aria-label = "Search" aria-describedby = "search-addon"/>
         <button type = "button" class = "btn btn-outline-primary">search</button>
+      </div>
+      <div>
+        <container>
+          {/* <button type = "button" class = "btn btn-outline-primary" style={{marginTop: "1%"}}>Create Project</button> */}
+          <CreateProjectPopUp></CreateProjectPopUp>
+          <button type = "button" class = "btn btn-outline-primary" style={{marginTop: "1%", marginLeft: "1%"}}>Delete Project</button>
+        </container>
       </div>
       <div> 
         <ProjectContent projectNum = "1" authorizedUsers = "list, of, authorized, users"></ProjectContent>
