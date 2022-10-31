@@ -77,6 +77,8 @@ router.post("/login", async (req, res) => {
       status: true,
       data: {
         email,
+        fname: user.fname,
+        lname: user.lname,
         token,
       }
     });
