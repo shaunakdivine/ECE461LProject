@@ -7,7 +7,7 @@ const UserDetailsScehma = new mongoose.Schema(
     lname: String,
     email: { type: String, unique: true },
     password: String,
-    token: { type: String }
+    projectIds: [Number],
   },
   {
     collection: "UserInfo",

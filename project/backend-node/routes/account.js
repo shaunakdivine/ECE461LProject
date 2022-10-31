@@ -7,10 +7,16 @@ const router = Router();
 
 router.post("/register", async (req, res) => {
   const { fname, lname, email, password } = req.body;
+
   try {
-    const oldUser = await USER_COLLECTION.findOne({ email });
-    if (oldUser) {
-      res.send({ status: false, error: "User Exists" });
+    const user = await USER_COLLECTION.findOne({ email });
+
+    // check if the user exists
+    if (user) {
+      res.send({
+        status: false,
+        error: "User already exists",
+      });
       return;
     }
 
@@ -19,11 +25,18 @@ router.post("/register", async (req, res) => {
       lname,
       email,
       password,
+      projectIds: [],
     });
-    res.send({ status: true });
+    res.send({
+      status: true,
+      data: { email },
+    });
 
   } catch (error) {
-    res.send({ status: false, error: error.toString() });
+    res.send({
+      status: false,
+      error: error.toString()
+    });
   }
 });
 
@@ -72,7 +85,7 @@ router.post("/login", async (req, res) => {
     res.send({
       status: false,
       error: error.toString(),
-    })
+    });
   }
 });
 
