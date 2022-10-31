@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import StatusButton from '../StatusButton/StatusButton';
-import HWPanel from '../HWPanel/HWPanel';
+import ProjectContent from '../ProjectContent/ProjectContent';
 import PropTypes from 'prop-types';
 
 function ProjectPanel(props) {

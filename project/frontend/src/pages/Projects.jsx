@@ -3,6 +3,7 @@ import { BasePage } from '../components/utility';
 import { Button, Containers,  ButtonGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 import ProjectPanel from '../components/Projects/ProjectsComponent';
+import ProjectContent from '../components/ProjectContent/ProjectContent'
 
 
 function ProjectsPage(props) {
@@ -12,14 +13,13 @@ function ProjectsPage(props) {
         <input type = "search" class = "form-control rounder"  placeholder = "Search" aria-label = "Search" aria-describedby = "search-addon"/>
         <button type = "button" class = "btn btn-outline-primary">search</button>
       </div>
-      <div className="project-container">
-        <div className="project-panel">
-          <ProjectPanel projectName="Project 1"> Project 1</ProjectPanel>
-          <ProjectPanel projectName="Project 2"> Project 2</ProjectPanel> 
-          <ProjectPanel projectName="Project 3"> Project 3</ProjectPanel>
-    
-        </div>
-      </div>  
+      <div> 
+        <ProjectContent projectNum = "1" authorizedUsers = "list, of, authorized, users"></ProjectContent>
+        <ProjectContent projectNum = "2" authorizedUsers = "list, of, authorized, users"></ProjectContent>
+        <ProjectContent projectNum = "3" authorizedUsers = "list, of, authorized, users"></ProjectContent>
+      </div>
+
+
     </BasePage>
   )
 }
