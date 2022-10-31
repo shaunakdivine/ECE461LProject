@@ -6,7 +6,7 @@ const STAFFS = {
   frontend: [
     {
       name: 'Han-Hsuan Lin',
-      imgurl: 'https://via.placeholder.com/500',
+      imgurl: process.env.PUBLIC_URL + '/about/han.jpg',
       desc: 'Some Description',
     },
     {
@@ -23,7 +23,7 @@ const STAFFS = {
   backend: [
     {
       name: 'David Gross',
-      imgurl: 'https://via.placeholder.com/500',
+      imgurl: process.env.PUBLIC_URL + '/about/david.jpg',
       desc: 'Some Description',
     },
     {
