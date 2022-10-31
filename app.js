@@ -24,61 +24,47 @@
 
  app.post("/register", async (req,res) => {
     const { fname, lname, email, password} = req.body;
-    const encryptedPassword = await bcrypt.hash(password, 10);
+    // const encryptedPassword = await bcrypt.hash(password, 10);
     try{
         const oldUser = await User.findOne({email});
         if(oldUser){
-            res.send({error: "User Exists"});
+            res.send({status: false, error: "User Exists"});
         }
         await User.create({
             fname, 
             lname, 
             email,
-            password: encryptedPassword,
+            password,
         });
-        res.send({status: "ok"});
+        res.send({status: true});
 
     }catch(error){
-        res.send({status: "error"});
+        res.send({status: false, error: error.toString()});
+
     }
+ });
+
+ app.post("/sign-in", async (req,res) => {
+    const {email, password} = req.body;
+    try{
+        const oldUser = await User.findOne({email});
+        if(oldUser){
+                res.send({status: "Yay! You logged in"});
+                //Create token
+        }
+        else{
+            res.send({status: "Hmm either wrong password or wrong email" })
+        }
+    }
+    catch(error){
+        res.send({status: "Uh Oh, an error happened"})
+    }
+
+
+
  });
  //This is the port number below (David Gross)
  app.listen(5000,()=>{
     console.log("Server Started");
  });
 
-// app.post("/post", async(req, res)=>{
-//     console.log(req.body);
-//     const {data}=req.body;
-
-//     try{
-//         if(data == "david"){
-//             res.send({status:"ok"})
-//         }
-//         else{
-//             res.send({status: "User Not Found"})
-//         }
-        
-//     }catch(error){
-//         res.send({status:"error, try again"})
-//     }
-// });
-
-// //Integrating the UserDetails JS 
-// require("./userDetails");
-
-// const User = mongoose.model("UserInfo");
-
-// app.post("/register", async (req, res) => {
-//     const{name, email, mobileNo} = req.body; 
-//     try{
-//         await User.create({
-//             uname: name, 
-//             email, 
-//             phoneNo: mobileNo, 
-//         });
-//         res.send({status: "Ok"});
-//     } catch(error){
-//         res.send({status: "error"});
-//     }
-// });
