@@ -1,5 +1,5 @@
 import React from 'react';
-import HWPopUp from '../../../components/HWPopUp/HWPopUp';
+import HWPopUp from '../../../components/hardware/HWPopUp';
 import { BasePage } from '../../../components/utility';
 
 function HardwarePage() {

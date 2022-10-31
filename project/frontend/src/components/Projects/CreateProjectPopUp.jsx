@@ -3,7 +3,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import './index.js';
 import React from 'react';
-import ReactDOM from 'react-dom/client';
 import Button from 'react-bootstrap/Button';
 
 import Modal from 'react-bootstrap/Modal';

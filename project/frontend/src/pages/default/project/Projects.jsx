@@ -1,6 +1,6 @@
 import React from 'react';
 import { BasePage } from '../../../components/utility';
-import ProjectPanel from '../../../components/Projects/ProjectsComponent';
+import ProjectPanel from '../../../components/projects/ProjectsComponent';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 
 function ProjectsPage() {
