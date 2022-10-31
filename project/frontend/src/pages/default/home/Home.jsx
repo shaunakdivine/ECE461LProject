@@ -4,7 +4,7 @@ import { BasePage } from '../../../components/utility';
 function HomePage() {
   return (
     <BasePage title='ECE461L Final Project'>
-      <div>put all the components here</div>
+      <div>Great page is coming soon!</div>
     </BasePage>
   )
 }
