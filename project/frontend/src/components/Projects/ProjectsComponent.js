@@ -3,7 +3,7 @@ import './Projects.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import StatusButton from '../StatusButton/StatusButton';
-import HWPanel from '../HWPanel/HWPanel';
+import ProjectContent from '../ProjectContent/ProjectContent';
 
 
 class ProjectPanel extends React.Component {
@@ -26,8 +26,8 @@ class ProjectPanel extends React.Component {
             <StatusButton isJoined={true} initialText = "Join"></StatusButton>
             </div>
             <div className="panel-HW">
-                <HWPanel></HWPanel>
-                <HWPanel></HWPanel>
+                <ProjectContent></ProjectContent>
+                <ProjectContent></ProjectContent>
             </div>
             <div className = "users">
             <p> list, of, authorized, users</p>
