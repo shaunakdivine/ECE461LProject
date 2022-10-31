@@ -2,8 +2,9 @@
 import React from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import StatusButton from '../StatusButton/StatusButton';
-import ProjectContent from '../ProjectContent/ProjectContent';
+// import ProjectContent from '../ProjectContent/ProjectContent';
 import PropTypes from 'prop-types';
+import HWPanel from '../HWPanel/HWPanel';
 
 function ProjectPanel(props) {
   const { projectName } = props;
@@ -18,6 +19,8 @@ function ProjectPanel(props) {
             list, of, authorized, users
           </Col>
           <Col>
+            {/* <ProjectContent />
+            <ProjectContent /> */}
             <HWPanel className='mb-3' />
             <HWPanel />
           </Col>
