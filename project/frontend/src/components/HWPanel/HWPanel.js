@@ -1,39 +1,34 @@
 
-import Button from 'react-bootstrap/Button';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './HWPanel.css';
+import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
+// import './HWPanel.css';
 import React from 'react';
-//import {Button, TextField} from '@material-ui/core'
+import PropTypes from 'prop-types';
 
-class HWPanel extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+function HWPanel(props) {
+  const { className } = props;
 
-    render() {
-        return (
-            <div className = "HWPanel-container">
-                <div className="HWPanel-text">
-                    <p> HWSet: 50/100</p>
-        
-                </div>
-                <div className = "HWPanel-buttons">
-                    <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="inputGroup-sizing-default">Enter Quantity:</span>
-                        </div>
-                        <input type="text" className="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></input>
-                    </div>
-                    <Button> Check In</Button>
-                    <Button> Check Out</Button>
-
-                </div>
-            </div>
-        );
-    }
+  return (
+    <Row className={`${className} align-items-center`}>
+      <Col md={3} className='text-end'>
+        HWSet: 50/100
+      </Col>
+      <Col md={9}>
+        <InputGroup>
+          <InputGroup.Text>Enter Quantity:</InputGroup.Text>
+          <Form.Control
+            type='number'
+            aria-label='input-quantity'
+            aria-describedby='input-quantity' />
+          <Button variant="primary">Check In</Button>
+          <Button variant="secondary">Check Out</Button>
+        </InputGroup>
+      </Col>
+    </Row>
+  );
 }
 
-
+HWPanel.propTypes = {
+  className: PropTypes.string,
+}
 
 export default HWPanel;

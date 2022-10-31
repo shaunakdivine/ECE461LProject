@@ -1,42 +1,37 @@
-import './Projects.css';
+// import './Projects.css';
 import React from 'react';
+import { Card, Col, Row } from 'react-bootstrap';
 import StatusButton from '../StatusButton/StatusButton';
 import HWPanel from '../HWPanel/HWPanel';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
-class ProjectPanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projectName: "project"
-    };
-  }
-
-  render() {
-    const projectName = this.props.projectName;
-    return (
-      <div className='panel-container'>
-        <div className="panel-button">
-          <StatusButton isJoined={true} initialText="Join"></StatusButton>
-        </div>
-        <div className="panel-HW">
-          <HWPanel></HWPanel>
-          <HWPanel></HWPanel>
-        </div>
-        <div className="users">
-          <p> list, of, authorized, users</p>
-        </div>
-
-        <div className="title">
-          <h3> {projectName} </h3>
-        </div>
-      </div>
-    );
-  }
+function ProjectPanel(props) {
+  const { projectName } = props;
+  return (
+    <Card className='mb-4 bg-light'>
+      <Card.Body>
+        <Row className='align-items-center'>
+          <Col md={2}>
+            <h3 className='m-0'>{projectName}</h3>
+          </Col>
+          <Col md={2}>
+            list, of, authorized, users
+          </Col>
+          <Col>
+            <HWPanel className='mb-3' />
+            <HWPanel />
+          </Col>
+          <Col md='auto'>
+            <StatusButton isJoined={true} initialText="Join"></StatusButton>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
+  )
 }
 
 ProjectPanel.propTypes = {
-  projectName: PropTypes.string.isRequired
+  projectName: PropTypes.string.isRequired,
 }
 
 export default ProjectPanel;
