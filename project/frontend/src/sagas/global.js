@@ -1,6 +1,6 @@
 import { call, put } from "redux-saga/effects";
 import { sha256 } from 'js-sha256';
-import { loginAPI, logoutAPI, registerAPI } from "../apis/global";
+import { loginAPI, registerAPI } from "../apis/global";
 import { 
   GLOBAL_LOGIN,
   GLOBAL_LOGIN_FAIL,
@@ -9,12 +9,15 @@ import {
   GLOBAL_LOGOUT_SUCCESS,
   GLOBAL_REGISTER_FAIL,
 } from "../actions/types/global";
-import { dummyTimeAPI } from "../apis/test";
 
 export function* globalCheckLogin() {
   console.log('check login');
   if (localStorage.getItem('__token') !== null) {
-    yield put({ type: GLOBAL_LOGIN_SUCCESS });
+    const payload = {
+      ...JSON.parse(localStorage.getItem('__user_meta')),
+      token: localStorage.getItem('__token'),
+    }
+    yield put({ type: GLOBAL_LOGIN_SUCCESS, payload });
   }
 }
 
@@ -30,7 +33,17 @@ export function* globalLogin(action) {
 
     if (response.status) {
       localStorage.setItem('__token', response.data.token);
-      yield put({ type: GLOBAL_LOGIN_SUCCESS });
+      localStorage.setItem('__user_meta', JSON.stringify({
+        fname: response.data.fname,
+        lname: response.data.lname,
+        email: response.data.email,
+      }));
+      yield put({ type: GLOBAL_LOGIN_SUCCESS, payload: {
+        fname: response.data.fname,
+        lname: response.data.lname,
+        email: response.data.email,
+        token: response.data.token,
+      }});
     } else {
       yield put({ type: GLOBAL_LOGIN_FAIL, payload: { error: response.error } });
     }
@@ -39,18 +52,11 @@ export function* globalLogin(action) {
   }
 }
 
-export function* globalLogout(action) {
-  const { email } = action.payload;
-
+export function* globalLogout() {
   try {
-    const response = yield call(logoutAPI, { email });
-
-    if (response.status === 'ok') {
-      localStorage.removeItem('__token');
-      yield put({ type: GLOBAL_LOGOUT_SUCCESS });
-    } else {
-      yield put({ type: GLOBAL_LOGOUT_FAIL, payload: { error: response.error } });
-    }
+    localStorage.removeItem('__token');
+    localStorage.removeItem('__user_meta');
+    yield put({ type: GLOBAL_LOGOUT_SUCCESS });
   } catch (error) {
     yield put({ type: GLOBAL_LOGOUT_FAIL, payload: { error: error.toString() } });
   }
@@ -60,8 +66,6 @@ export function* globalRegister(action) {
   const body = action.payload;
 
   try {
-    // test 
-    yield call(dummyTimeAPI, 2000);
     const response = yield call(registerAPI, { ...body, password: sha256(body.password) });
 
     if (response.status) {

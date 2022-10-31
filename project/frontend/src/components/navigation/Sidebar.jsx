@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { Button, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import PropTypes from 'prop-types';
-import { checkLogin } from '../../actions/global';
+import { checkLogin, logout } from '../../actions/global';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function ConnectSidebar(props) {
-  const { loggedIn, checkLogin } = props;
-  // const navigate = useNavigate();
+  const { name, email, loggedIn, checkLogin, logout } = props;
+  const navigate = useNavigate();
   const location = useLocation();
   const isActive = (route) => location.pathname.includes(route);
   
@@ -19,11 +19,11 @@ function ConnectSidebar(props) {
   }, [])
 
   // if not logged in, navigate to login page
-  // useEffect(() => {
-  //   if (!loggedIn) {
-  //     navigate('/account');
-  //   }
-  // }, [loggedIn]);
+  useEffect(() => {
+    if (!loggedIn) {
+      navigate('/account');
+    }
+  }, [loggedIn]);
 
   return (
     <div className='w-100 d-flex flex-column flex-shrink-0 p-3 bg-light'>
@@ -62,10 +62,13 @@ function ConnectSidebar(props) {
       <hr />
       {
         loggedIn
-          ? <div>
-              Han-Hsuan Lin
-              <div className='text-muted small'>hhl@utexas.edu</div>
-            </div>
+          ? <>
+              <div className='mb-3'>
+                {name}
+                <div className='text-muted small'>{email}</div>
+              </div>
+              <Button as='button' variant='secondary' onClick={() => logout()}>Logout</Button>
+            </>
           : <LinkContainer to='/account'>
               <Button as='button' variant='secondary'>User Login</Button>
             </LinkContainer>
@@ -75,16 +78,22 @@ function ConnectSidebar(props) {
 }
 
 ConnectSidebar.propTypes = {
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
   loggedIn: PropTypes.bool.isRequired,
   checkLogin: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
+  name: state.global.name,
+  email: state.global.email,
   loggedIn: state.global.loggedIn,
 });
 
 const mapDispatchToProps = {
   checkLogin,
+  logout,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectSidebar);

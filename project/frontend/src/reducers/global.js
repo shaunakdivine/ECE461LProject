@@ -13,6 +13,9 @@ import {
 const initialState = {
   loading: false,
   loggedIn: false,
+  name: '',
+  email: '',
+  token: '',
   errorToastShow: false,
   error: "",
 }
@@ -26,7 +29,15 @@ export default (state = initialState, { type, payload }) => {
     return { ...state, loading: true }
 
   case GLOBAL_LOGIN_SUCCESS:
-    return { ...state, loading: false, loggedIn: true }
+    console.log(payload);
+    return {
+      ...state,
+      loading: false,
+      loggedIn: true,
+      name: `${payload.fname} ${payload.lname}`,
+      email: payload.email,
+      token: payload.token,
+    }
 
   case GLOBAL_LOGOUT_SUCCESS:
     return { ...state, loading: false, loggedIn: false }

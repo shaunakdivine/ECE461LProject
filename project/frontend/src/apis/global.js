@@ -8,11 +8,6 @@ export const loginAPI = data =>
     .then(response => response.data)
     .catch(catchAPIerror);
 
-export const logoutAPI = data =>
-  axios.post(`${BASE_URL}/logout`, data)
-    .then(response => response.data)
-    .catch(catchAPIerror);
-
 export const registerAPI = data =>
   axios.post(`${BASE_URL}/register`, data)
     .then(response => response.data)
