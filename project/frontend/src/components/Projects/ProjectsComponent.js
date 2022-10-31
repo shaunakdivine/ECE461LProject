@@ -4,7 +4,7 @@ import { Card, Col, Row } from 'react-bootstrap';
 import StatusButton from '../StatusButton/StatusButton';
 // import ProjectContent from '../ProjectContent/ProjectContent';
 import PropTypes from 'prop-types';
-import HWPanel from '../HWPanel/HWPanel';
+import ProjectContent from '../ProjectContent/ProjectContent';
 
 function ProjectPanel(props) {
   const { projectName } = props;
