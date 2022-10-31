@@ -11,17 +11,7 @@ Frontend: Shaunak and Stephen and Han
 
 ## Build
 
-### Backend (NodeJS)
-
 In `project/backend-node` folder:
-```
-npm install
-npm start
-```
-
-### Frontend
-
-In `project/frontend` folder:
 ```
 npm install
 npm start
