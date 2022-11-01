@@ -51,5 +51,8 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_JOIN_FAIL:
     case PROJECT_LEAVE_FAIL:
       return { ...state, loading: false }
+
+    default:
+      return state
   }
 }
