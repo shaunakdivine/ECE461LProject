@@ -8,10 +8,10 @@ function StaffContainer(props) {
   return (
     <div className={className}>
       <div className="h4 mb-3">{groupTitle}</div>
-      <Row>
+      <Row className='g-4'>
         {
           staffs.map((staff, i) => (
-            <Col md={4} key={i}>
+            <Col lg={6} xl={4} key={i}>
               <Card className='text-center'>
                 <Ratio aspectRatio='1x1'>
                   <Card.Img style={{'objectFit': 'cover'}} variant='top' src={staff.imgurl} alt={`Profile photo of ${staff.name}`} />
