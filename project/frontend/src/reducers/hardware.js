@@ -51,5 +51,8 @@ export default (state = initialState, { type, payload }) => {
     case HARDWARE_CHECK_IN_FAIL:
     case HARDWARE_CHECK_OUT_FAIL:
       return { ...state, loading: false }
+
+    default:
+      return state
   }
 }
