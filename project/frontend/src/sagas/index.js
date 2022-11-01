@@ -6,6 +6,7 @@ import {
   GLOBAL_REGISTER
 } from '../actions/types/global';
 import {
+<<<<<<< HEAD
   HARDWARE_ADD,
   HARDWARE_CHECK_IN,
   HARDWARE_CHECK_OUT,
@@ -14,6 +15,8 @@ import {
   HARDWARE_GET
 } from '../actions/types/hardware';
 import {
+=======
+>>>>>>> 408b82a (add project redux reducers)
   PROJECT_ADD,
   PROJECT_DELETE,
   PROJECT_EDIT,
@@ -28,6 +31,7 @@ import {
   globalRegister
 } from './global';
 import {
+<<<<<<< HEAD
   hardwareAdd,
   hardwareCheckIn,
   hardwareCheckOut,
@@ -36,6 +40,8 @@ import {
   hardwareGet
 } from './hardware';
 import {
+=======
+>>>>>>> 408b82a (add project redux reducers)
   projectAdd,
   projectDelete,
   projectEdit,
@@ -59,6 +65,7 @@ export default function* rootSaga() {
     takeEvery(PROJECT_DELETE, projectDelete),
     takeEvery(PROJECT_JOIN, projectJoin),
     takeEvery(PROJECT_LEAVE, projectLeave),
+<<<<<<< HEAD
 
     // hardware
     takeEvery(HARDWARE_GET, hardwareGet),
@@ -67,5 +74,7 @@ export default function* rootSaga() {
     takeEvery(HARDWARE_DELETE, hardwareDelete),
     takeEvery(HARDWARE_CHECK_IN, hardwareCheckIn),
     takeEvery(HARDWARE_CHECK_OUT, hardwareCheckOut),
+=======
+>>>>>>> 408b82a (add project redux reducers)
   ]);
 }

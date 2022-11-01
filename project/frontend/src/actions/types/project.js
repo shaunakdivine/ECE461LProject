@@ -18,8 +18,12 @@ export const PROJECT_JOIN_SUCCESS = 'PROJECT_JOIN_SUCCESS';
 export const PROJECT_JOIN_FAIL = 'PROJECT_JOIN_FAIL';
 export const PROJECT_LEAVE = 'PROJECT_LEAVE';
 export const PROJECT_LEAVE_SUCCESS = 'PROJECT_LEAVE_SUCCESS';
+<<<<<<< HEAD
 export const PROJECT_LEAVE_FAIL = 'PROJECT_LEAVE_FAIL';
 
 // component behaviors
 export const PROJECT_OPEN_DETAIL_MODAL = 'PROJECT_OPEN_DETAIL_MODAL';
 export const PROJECT_CLOSE_DETAIL_MODAL = 'PROJECT_CLOSE_DETAIL_MODAL';
+=======
+export const PROJECT_LEAVE_FAIL = 'PROJECT_LEAVE_FAIL';
+>>>>>>> 408b82a (add project redux reducers)
