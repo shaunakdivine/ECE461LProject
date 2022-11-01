@@ -7,7 +7,7 @@ const STAFFS = {
     {
       name: 'Han-Hsuan Lin',
       imgurl: process.env.PUBLIC_URL + '/about/han.jpg',
-      desc: 'Some Description',
+      desc: "UT School of Information '23",
     },
     {
       name: 'Stephen Young',
@@ -24,7 +24,7 @@ const STAFFS = {
     {
       name: 'David Gross',
       imgurl: process.env.PUBLIC_URL + '/about/david.jpg',
-      desc: 'Some Description',
+      desc: "UT School of Engineering '24",
     },
     {
       name: 'Nafeezur Chowdhury',
