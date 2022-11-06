@@ -22,6 +22,10 @@
 
  const User = mongoose.model("UserInfo");
 
+ app.post("/test", async(req,res) => {
+    res.send("Hello, this is just a test")
+ })
+
  app.post("/register", async (req,res) => {
     const { fname, lname, email, password} = req.body;
     // const encryptedPassword = await bcrypt.hash(password, 10);
@@ -61,7 +65,24 @@
     }
 
 
+ });
+// Han, please add this to your repository and add project ID with unique String to userDetails.js
+ app.post("/create-project", async (req,res) => {
+    const { projectID} = req.body;
+    try{
+        const oldID = await User.findOne({projectID});
+        if(oldID){
+            res.send({status: false, error: "ProjectID Exists"});
+        }
+        await User.create({
+            projectID
+        });
+        res.send({status: true});
 
+    }catch(error){
+        res.send({status: false, error: error.toString()});
+
+    }
  });
  //This is the port number below (David Gross)
  app.listen(5000,()=>{
