@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require("path");
 const morgan = require('morgan');
 const accountRouter = require('./routes/account');
+const projectRouter = require('./routes/project');
+const hardwareRouter = require('./routes/hardware');
 
 const app = express();
 app.use(express.static(path.join(__dirname, "build")));
@@ -12,6 +14,8 @@ app.use(cors());
 
 // routers
 app.use('/api/account', accountRouter);
+app.use('/api/project', projectRouter);
+app.use('/api/hwset', hardwareRouter)
 
 // default pages
 app.get('*', (req, res) => {
