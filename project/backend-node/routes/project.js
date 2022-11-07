@@ -22,11 +22,11 @@ router.get("/get-project", (req, res) => {
 });
 
 // 2.3 edit project
-router.put("/", (req, res) => {
+router.put("/edit-project", (req, res) => {
 });
 
 // 2.4 delete project
-router.delete("/", (req, res) => {
+router.delete("/delete-project", (req, res) => {
 });
 
 // 2.5 join project
