@@ -16,7 +16,7 @@ app.use('/api/project', projectRouter);
 app.use('/api/hwset', hardwareRouter)
 
 //This is the port number below (David Gross)
-app.listen(5001, () => {
+app.listen(5000, () => {
     console.log("Server Started");
 });
 
