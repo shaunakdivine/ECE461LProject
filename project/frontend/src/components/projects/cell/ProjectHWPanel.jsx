@@ -1,16 +1,14 @@
-
 import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
-// import './HWPanel.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function HWPanel(props) {
-  const { className } = props;
+export const ProjectHWPanel = props => {
+  const { className, projectHW } = props;
 
   return (
     <Row className={`${className} align-items-center`}>
-      <Col md={3} className='text-end'>
-        HWSet: 50/100
+      <Col md={3}>
+        {projectHW.name}: {projectHW.checkedIn}/{projectHW.capacity}
       </Col>
       <Col md={9}>
         <InputGroup>
@@ -27,8 +25,7 @@ function HWPanel(props) {
   );
 }
 
-HWPanel.propTypes = {
+ProjectHWPanel.propTypes = {
   className: PropTypes.string,
-}
-
-export default HWPanel;
+  projectHW: PropTypes.object.isRequired,
+};
