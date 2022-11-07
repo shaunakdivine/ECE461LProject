@@ -1,7 +1,3 @@
-
-//import { InputGroup, Modal } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-// import './index.js';
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 
@@ -10,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 
 
-function CreateProjectPopUp(props){
+export const CreateProjectPopup = props => {
     const [isOpen, setOpen]= useState(false);
     const openModal = () => setOpen(true);
     const closeModal = () => setOpen(false);
@@ -51,7 +47,6 @@ function CreateProjectPopUp(props){
             </Modal.Body>
         </Modal></>
     );
-
 }
 // class HWPopUp extends React.Component {
 
@@ -103,7 +98,3 @@ function CreateProjectPopUp(props){
 //     }
 
 // }
-
-
-
-export default CreateProjectPopUp;
