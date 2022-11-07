@@ -2,10 +2,7 @@ import {
   PROJECT_ADD,
   PROJECT_ADD_FAIL,
   PROJECT_ADD_SUCCESS,
-<<<<<<< HEAD
   PROJECT_CLOSE_DETAIL_MODAL,
-=======
->>>>>>> 408b82a (add project redux reducers)
   PROJECT_DELETE,
   PROJECT_DELETE_FAIL,
   PROJECT_DELETE_SUCCESS,
@@ -20,7 +17,6 @@ import {
   PROJECT_JOIN_SUCCESS,
   PROJECT_LEAVE,
   PROJECT_LEAVE_FAIL,
-<<<<<<< HEAD
   PROJECT_LEAVE_SUCCESS,
   PROJECT_OPEN_DETAIL_MODAL
 } from "../actions/types/project"
@@ -32,14 +28,6 @@ const initialState = {
   detailModalShow: false,
   projects: MOCK_PROJECTS,
   currentProjectId: -1,
-=======
-  PROJECT_LEAVE_SUCCESS
-} from "../actions/types/project"
-
-const initialState = {
-  loading: false,
-  projects: [],
->>>>>>> 408b82a (add project redux reducers)
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -69,7 +57,6 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_JOIN_FAIL:
     case PROJECT_LEAVE_FAIL:
       return { ...state, loading: false }
-<<<<<<< HEAD
 
     case PROJECT_OPEN_DETAIL_MODAL:
       return { ...state, detailModalShow: true, currentProjectId: payload.projectId }
@@ -79,7 +66,5 @@ export default (state = initialState, { type, payload }) => {
 
     default:
       return state
-=======
->>>>>>> 408b82a (add project redux reducers)
   }
 }
