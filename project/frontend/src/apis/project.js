@@ -16,8 +16,8 @@ export const addProjectAPI = data =>
     .catch(catchAPIerror);
 
 // 2.3
-export const editProjectAPI = data =>
-  axios.put(`${BASE_URL}/`, data)
+export const editProjectAPI = (projectId, data) =>
+  axios.put(`${BASE_URL}/${projectId}`, data)
     .then(response => response.data)
     .catch(catchAPIerror);
 

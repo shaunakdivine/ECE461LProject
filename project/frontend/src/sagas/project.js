@@ -54,11 +54,11 @@ export function* projectAdd(action) {
 }
 
 export function* projectEdit(action) {
-  const body = action.payload;
-  console.log(body);
+  const { projectId, data } = action.payload;
+  console.log(projectId, data);
 
   try {
-    const response = yield call(editProjectAPI, body);
+    const response = yield call(editProjectAPI, projectId, data);
 
     if (response.status) {
       yield all([
