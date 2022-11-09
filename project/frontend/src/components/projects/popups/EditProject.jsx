@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
+import {Button} from 'react-bootstrap';
 import PropTypes from 'prop-types'
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -38,7 +38,7 @@ export const EditProjectPopup = props => {
 
 
     return(
-        <><Button type="button" class="btn btn-outline-primary" style={{ marginTop: "1%" }} data-toggle="modal" data-target="#exampleModal" onClick={openModal}>
+        <><Button type="button" variant='outline-primary' style={{ marginTop: "1%" }} data-toggle="modal" data-target="#exampleModal" onClick={openModal}>
             Edit Project
         </Button>
         <Modal show={isOpen} onHide={closeModal}>

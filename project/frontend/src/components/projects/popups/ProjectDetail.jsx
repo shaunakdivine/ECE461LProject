@@ -12,7 +12,7 @@ export const ProjectDetailPopup = props => {
     id: -1,
     name: '',
     joined: false,
-    hw: [],
+    hardwares: [],
   })
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export const ProjectDetailPopup = props => {
         <h4 className='mb-3'>Hardware Sets</h4>
         <Row className='g-3 justify-content-center'>
           {
-            project.hw.map(hardware => (
+            project.hardwares.map(hardware => (
               <Col xs={12} key={hardware.id}>
                 <ProjectHWPanel projectHW={hardware} />
               </Col>

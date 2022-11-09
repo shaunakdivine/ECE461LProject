@@ -6,6 +6,8 @@ export const ProjectPanel = (props) => {
   const { project, onOpenDetail } = props;
   const [joined, setJoined] = useState(project.joined);
 
+  console.log(project);
+
   return (
     <Card>
       <Card.Header className='py-3'>
@@ -13,7 +15,7 @@ export const ProjectPanel = (props) => {
       </Card.Header>
       <ListGroup as='ul' variant="flush">
         {
-          project.hw.map(hardware => (
+          project.hardwares.map(hardware => (
             <ListGroup.Item as='li' key={hardware.id} className='d-flex justify-content-between align-items-start'>
               <div className={`me-auto${joined ? '' : ' text-muted'}`}>{hardware.name}</div>
               <Badge bg={joined ? 'primary' : 'secondary'} pill>{hardware.checkedIn}</Badge>

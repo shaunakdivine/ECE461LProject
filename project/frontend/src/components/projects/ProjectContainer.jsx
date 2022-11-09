@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Row, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { checkInHardware, checkOutHardware } from '../../actions/hardware'
@@ -76,7 +76,7 @@ const ConnectProjectContainer = (props) => {
   };
 
   // test
-  console.log(
+  console.debug(
     userId,
     getProject,
     onCreateProject,
@@ -88,9 +88,13 @@ const ConnectProjectContainer = (props) => {
     onCheckOutProject,
   );
 
-  // useEffect(() => {
-  //   getProject({ userId });
-  // }, []);
+  useEffect(() => {
+    getProject({ userId });
+  }, []);
+
+  useEffect(() => {
+  }, [loading]);
+  
   
 
   return (

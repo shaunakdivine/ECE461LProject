@@ -22,9 +22,11 @@ export function* projectGet(action) {
 
   try {
     const response = yield call(getProjectsAPI, userId);
+    console.log('zzz', response);
 
     if (response.status) {
-      yield put({ type: PROJECT_GET_SUCCESS, payload: { projects: [] } });
+      console.log('rrr', response);
+      yield put({ type: PROJECT_GET_SUCCESS, payload: { projects: response.data } });
     } else {
       yield put({ type: PROJECT_GET_FAIL, payload: { error: response.error } });
     }

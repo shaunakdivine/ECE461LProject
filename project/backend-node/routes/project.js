@@ -34,7 +34,9 @@ router.post("/", async (req,res) => {
 });
 
 // 2.2 list projects
-router.get("/", async (req, res) => {
+router.get("/:userId", async (req, res) => {
+  const { userId } = req.params;
+  console.log(userId);
   const projects = await PROJECT_COLLECTION.find({});
   console.log(projects);
   res.send({
@@ -43,7 +45,7 @@ router.get("/", async (req, res) => {
       id: p.projectId,
       name: p.name,
       description: p.description,
-      join: true,
+      joined: true,
       hardwares: [
         {
           id: 0,

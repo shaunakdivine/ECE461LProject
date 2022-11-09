@@ -4,7 +4,7 @@ export const MOCK_PROJECTS = [
     name: 'Project 1',
     description: 'Some cool descriptions',
     joined: false,
-    hw: [
+    hardwares: [
       {
         id: 0,
         name: 'HWSet1',
@@ -30,7 +30,7 @@ export const MOCK_PROJECTS = [
     name: 'Project 2',
     description: 'Some cool descriptions',
     joined: true,
-    hw: [
+    hardwares: [
       {
         id: 0,
         name: 'HWSet1',
@@ -56,7 +56,7 @@ export const MOCK_PROJECTS = [
     name: 'Project 3',
     description: 'Some cool descriptions',
     joined: true,
-    hw: [
+    hardwares: [
       {
         id: 0,
         name: 'HWSet1',

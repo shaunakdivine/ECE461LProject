@@ -16,7 +16,7 @@ const UserDetailsScehma = new mongoose.Schema(
 
 const checkedInSchema = new mongoose.Schema(
   {
-    userID: {type: Number, unique: true},
+    userID: Number,
     amount: Number,
   }
 );
@@ -25,7 +25,7 @@ mongoose.model("CheckedIn", checkedInSchema);
 
 const hwSchema = new mongoose.Schema(
   {
-    id: {type: Number, unique: true},
+    id: Number,
     Name: String,
     checkedIn: [checkedInSchema],
   }
