@@ -1,32 +1,32 @@
 const { Router } = require('express');
-const { USER_COLLECTION } = require('../utilities/database');
+const { USER_COLLECTION, PROJECT_COLLECTION } = require('../utilities/database');
 const router = Router();
 
 // 2.1 create project
 // Still having errors with checking if it already exists
-router.post("/create-project", async (req,res) => {
-  const projectId = req.body;
-  USER_COLLECTION.create(
-      projectId
-    );
+router.post("/", async (req,res) => {
+  const { name} = req.body;
+  PROJECT_COLLECTION.create({
+    name,
+    projectId: Date.now(),
+  });
     res.send({
       status: true,
-      data: { projectId },
     });
 });
 
 // 2.2 list projects
-router.get("/get-project", (req, res) => {
-  const projects = req.body;
-  res.send(projects);
+router.get("/", async (req, res) => {
+  const user = await PROJECT_COLLECTION.find({});
+  res.send(user);
 });
 
 // 2.3 edit project
-router.put("/edit-project", (req, res) => {
+router.put("/", (req, res) => {
 });
 
 // 2.4 delete project
-router.delete("/delete-project", (req, res) => {
+router.delete("/", (req, res) => {
 });
 
 // 2.5 join project
