@@ -5,10 +5,28 @@ const router = Router();
 // 2.1 create project
 // Still having errors with checking if it already exists
 router.post("/", async (req,res) => {
-  const { name} = req.body;
+  const { name, description, } = req.body;
   PROJECT_COLLECTION.create({
     name,
+    description,
     projectId: Date.now(),
+    hardwares: [
+      {
+        id: 0,
+        name: 'HWSet1',
+        checkedIn: [],
+      },
+      {
+        id: 1,
+        name: 'HWSet2',
+        checkedIn: [],
+      },
+      {
+        id: 2,
+        name: 'HWSet3',
+        checkedIn: [],
+      },
+    ]
   });
     res.send({
       status: true,
