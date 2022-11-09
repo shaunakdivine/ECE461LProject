@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 
 
-export const CreateProjectPopup = props => {
+export const EditProjectPopup = props => {
     const { onSubmission } = props;
     const [isOpen, setOpen]= useState(false);
     const [validated, setValidated] = useState(false);
@@ -39,11 +39,11 @@ export const CreateProjectPopup = props => {
 
     return(
         <><Button type="button" class="btn btn-outline-primary" style={{ marginTop: "1%" }} data-toggle="modal" data-target="#exampleModal" onClick={openModal}>
-            Create Project
+            Edit Project
         </Button>
         <Modal show={isOpen} onHide={closeModal}>
             <Modal.Header closeButton>
-                <Modal.Title>Create A New Project</Modal.Title>
+                <Modal.Title>Edit Current Project</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>  
@@ -70,6 +70,6 @@ export const CreateProjectPopup = props => {
     );
 }
 
-CreateProjectPopup.propTypes = {
+EditProjectPopup.propTypes = {
     onSubmission: PropTypes.func.isRequired,
   }
