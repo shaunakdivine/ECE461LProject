@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap'
+import { Button, Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { closeDetailModal, openDetailModal } from '../../actions/project'
 import { ProjectPanel } from './cell'
@@ -16,9 +16,9 @@ const ConnectProjectContainer = (props) => {
 
   return (
     <>
-      <Row>
-        <Col md={8}>
-          <InputGroup className='mb-3'>
+      <Row className='mb-3'>
+        {/* <Col md={8}>
+          <InputGroup>
             <Form.Control
               type='search'
               placeholder='Search Projects...'
@@ -26,8 +26,8 @@ const ConnectProjectContainer = (props) => {
               aria-describedby='search-input-box' />
             <Button variant='outline-primary'>Search</Button>
           </InputGroup>
-        </Col>
-        <Col md={4}>
+        </Col> */}
+        <Col md={4} lg={3}>
           <Button className='w-100'>Add Project</Button>
         </Col>
       </Row>

@@ -7,34 +7,34 @@ const STAFFS = {
     {
       name: 'Han-Hsuan Lin',
       imgurl: process.env.PUBLIC_URL + '/about/han.jpg',
-      desc: "UT School of Information '23",
+      desc: "School of Information",
     },
     {
       name: 'Stephen Young',
       imgurl: 'https://via.placeholder.com/500',
-      desc: 'Some Description',
+      desc: 'School of Engineering',
     },
     {
       name: 'Shaunak Divine',
       imgurl: 'https://via.placeholder.com/500',
-      desc: 'Some Description',
+      desc: 'School of Engineering',
     },
   ],
   backend: [
     {
       name: 'David Gross',
       imgurl: process.env.PUBLIC_URL + '/about/david.jpg',
-      desc: "UT School of Engineering '24",
+      desc: "School of Engineering",
     },
     {
       name: 'Nafeezur Chowdhury',
       imgurl: 'https://via.placeholder.com/500',
-      desc: 'Some Description',
+      desc: 'School of Engineering',
     },
     {
       name: 'Carlos Trevino',
-      imgurl: 'https://via.placeholder.com/500',
-      desc: 'Some Description',
+      imgurl: process.env.PUBLIC_URL + '/about/carlos.jpg',
+      desc: 'School of Engineering',
     },
   ],
 }
