@@ -1,4 +1,4 @@
-import { call, put } from "redux-saga/effects";
+import { all, call, put } from "redux-saga/effects";
 import {
   PROJECT_ADD_FAIL,
   PROJECT_ADD_SUCCESS,
@@ -6,6 +6,7 @@ import {
   PROJECT_DELETE_SUCCESS,
   PROJECT_EDIT_FAIL,
   PROJECT_EDIT_SUCCESS,
+  PROJECT_GET,
   PROJECT_GET_FAIL,
   PROJECT_GET_SUCCESS,
   PROJECT_JOIN_FAIL,
@@ -13,17 +14,22 @@ import {
   PROJECT_LEAVE_FAIL,
   PROJECT_LEAVE_SUCCESS
 } from "../actions/types/project";
-import { dummyTimeAPI } from "../apis/test";
+import { addProjectAPI, deleteProjectAPI, editProjectAPI, getProjectsAPI, joinProjectAPI, leaveProjectAPI } from "../apis/project";
 
 export function* projectGet(action) {
-  const body = action.payload;
-  console.log(body);
+  const { userId } = action.payload;
+  console.log(userId);
 
   try {
-    yield call(dummyTimeAPI, 2000);
-    yield put({ type: PROJECT_GET_SUCCESS, payload: { projects: [] } });
+    const response = yield call(getProjectsAPI, userId);
+
+    if (response.status) {
+      yield put({ type: PROJECT_GET_SUCCESS, payload: { projects: [] } });
+    } else {
+      yield put({ type: PROJECT_GET_FAIL, payload: { error: response.error } });
+    }
   } catch (error) {
-    yield put({ type: PROJECT_GET_FAIL, payload: { error: error.toString() } })
+    yield put({ type: PROJECT_GET_FAIL, payload: { error: error.toString() } });
   }
 }
 
@@ -32,11 +38,18 @@ export function* projectAdd(action) {
   console.log(body);
 
   try {
-    yield call(dummyTimeAPI, 2000);
-    yield put({ type: PROJECT_ADD_SUCCESS });
-    // TODO: call PROJECT_GET again to refresh project page
+    const response = yield call(addProjectAPI, body);
+
+    if (response.status) {
+      yield all([
+        put({ type: PROJECT_ADD_SUCCESS }),
+        put({ type: PROJECT_GET }),
+      ]);
+    } else {
+      yield put({ type: PROJECT_ADD_FAIL, payload: { error: response.error } });
+    }
   } catch (error) {
-    yield put({ type: PROJECT_ADD_FAIL, payload: { error: error.toString() } })
+    yield put({ type: PROJECT_ADD_FAIL, payload: { error: error.toString() } });
   }
 }
 
@@ -45,24 +58,38 @@ export function* projectEdit(action) {
   console.log(body);
 
   try {
-    yield call(dummyTimeAPI, 2000);
-    yield put({ type: PROJECT_EDIT_SUCCESS });
-    // TODO: call PROJECT_GET again to refresh project page
+    const response = yield call(editProjectAPI, body);
+
+    if (response.status) {
+      yield all([
+        put({ type: PROJECT_EDIT_SUCCESS }),
+        put({ type: PROJECT_GET }),
+      ]);
+    } else {
+      yield put({ type: PROJECT_EDIT_FAIL, payload: { error: response.error } });
+    }
   } catch (error) {
-    yield put({ type: PROJECT_EDIT_FAIL, payload: { error: error.toString() } })
+    yield put({ type: PROJECT_EDIT_FAIL, payload: { error: error.toString() } });
   }
 }
 
 export function* projectDelete(action) {
-  const body = action.payload;
-  console.log(body);
+  const { projectId } = action.payload;
+  console.log(projectId);
 
   try {
-    yield call(dummyTimeAPI, 2000);
-    yield put({ type: PROJECT_DELETE_SUCCESS });
-    // TODO: call PROJECT_GET again to refresh project page
+    const response = yield call(deleteProjectAPI, projectId);
+
+    if (response.status) {
+      yield all([
+        put({ type: PROJECT_DELETE_SUCCESS }),
+        put({ type: PROJECT_GET }),
+      ]);
+    } else {
+      yield put({ type: PROJECT_DELETE_FAIL, payload: { error: response.error } });
+    }
   } catch (error) {
-    yield put({ type: PROJECT_DELETE_FAIL, payload: { error: error.toString() } })
+    yield put({ type: PROJECT_DELETE_FAIL, payload: { error: error.toString() } });
   }
 }
 
@@ -71,11 +98,18 @@ export function* projectJoin(action) {
   console.log(body);
 
   try {
-    yield call(dummyTimeAPI, 2000);
-    yield put({ type: PROJECT_JOIN_SUCCESS });
-    // TODO: call PROJECT_GET again to refresh project page
+    const response = yield call(joinProjectAPI, body);
+
+    if (response.status) {
+      yield all([
+        put({ type: PROJECT_JOIN_SUCCESS }),
+        put({ type: PROJECT_GET }),
+      ])
+    } else {
+      yield put({ type: PROJECT_JOIN_FAIL, payload: { error: response.error } });
+    }
   } catch (error) {
-    yield put({ type: PROJECT_JOIN_FAIL, payload: { error: error.toString() } })
+    yield put({ type: PROJECT_JOIN_FAIL, payload: { error: error.toString() } });
   }
 }
 
@@ -84,9 +118,16 @@ export function* projectLeave(action) {
   console.log(body);
 
   try {
-    yield call(dummyTimeAPI, 2000);
-    yield put({ type: PROJECT_LEAVE_SUCCESS });
-    // TODO: call PROJECT_GET again to refresh project page
+    const response = yield call(leaveProjectAPI, body);
+
+    if (response.status) {
+      yield all([
+        put({ type: PROJECT_LEAVE_SUCCESS }),
+        put({ type: PROJECT_GET }),
+      ])
+    } else {
+      yield put({ type: PROJECT_LEAVE_FAIL, payload: { error: response.error } });
+    }
   } catch (error) {
     yield put({ type: PROJECT_LEAVE_FAIL, payload: { error: error.toString() } })
   }
