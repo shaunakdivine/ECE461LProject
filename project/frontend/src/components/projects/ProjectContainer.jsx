@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Col, Row, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { checkInHardware, checkOutHardware } from '../../actions/hardware'
@@ -14,7 +14,7 @@ import {
   openDetailModal
 } from '../../actions/project'
 import { ProjectPanel } from './cell'
-import { ProjectDetailPopup } from './popups'
+import { DeleteProjectPopup, ProjectDetailPopup } from './popups'
 
 const ConnectProjectContainer = (props) => {
   const {
@@ -24,6 +24,13 @@ const ConnectProjectContainer = (props) => {
     joinProject, leaveProject, checkInHardware, checkOutHardware,
     closeDetailModal, openDetailModal,
   } = props;
+
+  const [dOpen, setDOpen] = useState(false);
+
+  // test
+  const handleCloseD = () => {
+    setDOpen(false);
+  }
 
   const handleOpenDetail = id => openDetailModal({ projectId: id });
 
@@ -102,6 +109,9 @@ const ConnectProjectContainer = (props) => {
         <Col md={4} lg={3}>
           <Button className='w-100'>Add Project</Button>
         </Col>
+        <Col md={4} lg={3}>
+          <Button className='w-100' variant='danger' onClick={() => setDOpen(true)}>Delete Project</Button>
+        </Col>
       </Row>
       {
         loading
@@ -131,6 +141,9 @@ const ConnectProjectContainer = (props) => {
         projectId={currentProjectId}
         projects={projects}
         onClose={closeDetailModal} />
+      <DeleteProjectPopup 
+        isOpen={dOpen} 
+        onClose={handleCloseD} />
     </>
   )
 }
