@@ -14,7 +14,7 @@ import {
   openDetailModal
 } from '../../actions/project'
 import { ProjectPanel } from './cell'
-import { DeleteProjectPopup, ProjectDetailPopup, CreateProjectPopup } from './popups'
+import { DeleteProjectPopup, ProjectDetailPopup, CreateProjectPopup, EditProjectPopup } from './popups'
 
 const ConnectProjectContainer = (props) => {
   const {
@@ -146,7 +146,10 @@ const ConnectProjectContainer = (props) => {
         onClose={handleCloseD} />
       <CreateProjectPopup
         onSubmission={onCreateProject} />
+      <EditProjectPopup
+        onSubmission={onEditProject} />
     </>
+
   )
 }
 
