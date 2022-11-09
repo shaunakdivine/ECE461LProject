@@ -35,8 +35,37 @@ router.post("/", async (req,res) => {
 
 // 2.2 list projects
 router.get("/", async (req, res) => {
-  const user = await PROJECT_COLLECTION.find({});
-  res.send(user);
+  const projects = await PROJECT_COLLECTION.find({});
+  console.log(projects);
+  res.send({
+    status: true,
+    data: projects.map(p => ({
+      id: p.projectId,
+      name: p.name,
+      description: p.description,
+      join: true,
+      hardwares: [
+        {
+          id: 0,
+          name: 'HWSet1',
+          checkedIn: 0,
+          capacity: 100,
+        },
+        {
+          id: 1,
+          name: 'HWSet2',
+          checkedIn: 0,
+          capacity: 100,
+        },
+        {
+          id: 2,
+          name: 'HWSet3',
+          checkedIn: 0,
+          capacity: 100,
+        },
+      ]
+    }))
+  })
 });
 
 // 2.3 edit project
@@ -44,7 +73,33 @@ router.put("/", (req, res) => {
 });
 
 // 2.4 delete project
-router.delete("/", (req, res) => {
+router.delete("/:projectId", (req, res) => {
+  const { projectId } = req.params;
+  try {
+    const user = PROJECT_COLLECTION.find({ projectId: parseInt(projectId) });
+    console.log(user);
+    // check if the ID exists
+    if (user.count() > 0) {
+      PROJECT_COLLECTION.deleteOne({ projectId: parseInt(projectId) });
+      res.send({
+        status: true,
+        data: { projectId },
+      });
+      return;
+    }
+
+    res.send({
+      status: false,
+      error: "That ProjID doesn't exists",
+    });
+    return;
+
+  } catch (error) {
+    res.send({
+      status: false,
+      error: error.toString()
+    });
+  }
 });
 
 // 2.5 join project
