@@ -2,6 +2,7 @@ export const MOCK_PROJECTS = [
   {
     id: 0,
     name: 'Project 1',
+    description: 'Some cool descriptions',
     joined: false,
     hw: [
       {
@@ -27,6 +28,7 @@ export const MOCK_PROJECTS = [
   {
     id: 1,
     name: 'Project 2',
+    description: 'Some cool descriptions',
     joined: true,
     hw: [
       {
@@ -52,6 +54,7 @@ export const MOCK_PROJECTS = [
   {
     id: 2,
     name: 'Project 3',
+    description: 'Some cool descriptions',
     joined: true,
     hw: [
       {
