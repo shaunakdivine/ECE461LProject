@@ -14,7 +14,18 @@ const UserDetailsScehma = new mongoose.Schema(
   }
 );
 
+const ProjectInfo1 = new mongoose.Schema(
+  {
+    projectId: {type: Number,unique: true},
+    name: String
+  },
+  {
+    collection: "ProjectInfo",
+  }
+);
+
 mongoose.model("UserInfo", UserDetailsScehma);
+mongoose.model("ProjectInfo", ProjectInfo1);
 
 mongoose
   .connect(config.MONGO_URL, {
@@ -26,5 +37,6 @@ mongoose
   .catch(e => console.log(e));
 
 module.exports = {
-  USER_COLLECTION: mongoose.model("UserInfo")
+  USER_COLLECTION: mongoose.model("UserInfo"),
+  PROJECT_COLLECTION: mongoose.model("ProjectInfo")
 };
