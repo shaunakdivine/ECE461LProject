@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 
 export const CreateProjectPopup = props => {
-  const { show, onSubmission, onClose, } = props;
+  const { show, submitting, onSubmission, onClose } = props;
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = event => {
@@ -37,28 +37,39 @@ export const CreateProjectPopup = props => {
         <Modal.Title>Create A New Project</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form id='create-project' noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>
-              Name
-            </Form.Label>
-            <Form.Control type="string" placeholder="Enter Project Name" name='p-name' />
-            <Form.Label>
-              Description
-            </Form.Label>
-            <Form.Control type="string" placeholder="Enter Project Description" name='p-desc' />
+            <Form.Label>Name</Form.Label>
+            <Form.Control type="string" placeholder="Enter Project Name" name='p-name' required/>
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Create Project
-          </Button>
+          <Form.Group>
+            <Form.Label>Description</Form.Label>
+            <Form.Control type="string" placeholder="Enter Project Description" name='p-desc' required/>
+          </Form.Group>
         </Form>
       </Modal.Body>
+      <Modal.Footer>
+        <Button className='w-100' variant='primary' type='submit' form='create-project' disabled={submitting}>
+          {
+            submitting
+              ? <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              : 'Create Project'
+          }
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
 
 CreateProjectPopup.propTypes = {
   show: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
   onSubmission: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 }

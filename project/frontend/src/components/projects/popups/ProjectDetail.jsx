@@ -6,7 +6,7 @@ import { ProjectHWPanel } from '../cell';
 export const ProjectDetailPopup = props => {
   const {
     show, projectId, projects,
-    onClose,
+    onOpenEditModal, onOpenDeleteDialog, onClose,
   } = props;
   const [project, setProject] = useState({
     id: -1,
@@ -39,10 +39,10 @@ export const ProjectDetailPopup = props => {
             ))
           }
           <Col md={6} lg={4} xl={3}>
-            <Button className='w-100' variant='success'>Edit Project</Button>
+            <Button className='w-100' variant='success' onClick={() => onOpenEditModal()}>Edit Project</Button>
           </Col>
           <Col md={6} lg={4} xl={3}>
-            <Button className='w-100' variant='danger'>Delete Project</Button>
+            <Button className='w-100' variant='danger' onClick={() => onOpenDeleteDialog()}>Delete Project</Button>
           </Col>
         </Row>
       </Modal.Body>
@@ -57,5 +57,7 @@ ProjectDetailPopup.propTypes = {
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
   // onCheckIn: PropTypes.func.isRequired,
   // onCheckOut: PropTypes.func.isRequired,
+  onOpenEditModal: PropTypes.func.isRequired,
+  onOpenDeleteDialog: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };

@@ -1,14 +1,18 @@
 import {
   PROJECT_ADD,
   PROJECT_CLOSE_ADD_MODAL,
+  PROJECT_CLOSE_DELETE_DIALOG,
   PROJECT_CLOSE_DETAIL_MODAL,
+  PROJECT_CLOSE_EDIT_MODAL,
   PROJECT_DELETE,
   PROJECT_EDIT,
   PROJECT_GET,
   PROJECT_JOIN,
   PROJECT_LEAVE,
   PROJECT_OPEN_ADD_MODAL,
+  PROJECT_OPEN_DELETE_DIALOG,
   PROJECT_OPEN_DETAIL_MODAL,
+  PROJECT_OPEN_EDIT_MODAL,
 } from "./types/project";
 
 export const getProject = (payload) => ({ type: PROJECT_GET, payload });
@@ -21,5 +25,9 @@ export const leaveProject = (payload) => ({ type: PROJECT_LEAVE, payload });
 
 export const openDetailModal = (payload) => ({ type: PROJECT_OPEN_DETAIL_MODAL, payload });
 export const openAddModal = () => ({ type: PROJECT_OPEN_ADD_MODAL });
+export const openEditModal = () => ({ type: PROJECT_OPEN_EDIT_MODAL });
+export const openDeleteDialog = () => ({ type: PROJECT_OPEN_DELETE_DIALOG });
 export const closeDetailModal = () => ({ type: PROJECT_CLOSE_DETAIL_MODAL });
 export const closeAddModal = () => ({ type: PROJECT_CLOSE_ADD_MODAL });
+export const closeEditModal = () => ({ type: PROJECT_CLOSE_EDIT_MODAL });
+export const closeDeleteDialog = () => ({ type: PROJECT_CLOSE_DELETE_DIALOG });

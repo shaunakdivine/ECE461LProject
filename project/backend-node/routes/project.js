@@ -3,10 +3,9 @@ const { USER_COLLECTION, PROJECT_COLLECTION } = require('../utilities/database')
 const router = Router();
 
 // 2.1 create project
-// Still having errors with checking if it already exists
-router.post("/", async (req,res) => {
+router.post("/", async (req, res) => {
   const { name, description, } = req.body;
-  PROJECT_COLLECTION.create({
+  const project = {
     name,
     description,
     projectId: Date.now(),
@@ -27,18 +26,20 @@ router.post("/", async (req,res) => {
         checkedIn: [],
       },
     ]
+  }
+  await PROJECT_COLLECTION.create(project);
+
+  res.send({
+    status: true,
+    data: project
   });
-    res.send({
-      status: true,
-    });
 });
 
 // 2.2 list projects
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
-  console.log(userId);
   const projects = await PROJECT_COLLECTION.find({});
-  console.log(projects);
+  
   res.send({
     status: true,
     data: projects.map(p => ({
@@ -71,31 +72,61 @@ router.get("/:userId", async (req, res) => {
 });
 
 // 2.3 edit project
-router.put("/", (req, res) => {
-});
-
-// 2.4 delete project
-router.delete("/:projectId", (req, res) => {
+router.put("/:projectId", async (req, res) => {
   const { projectId } = req.params;
+  const { name, description } = req.body;
+
   try {
-    const user = PROJECT_COLLECTION.find({ projectId: parseInt(projectId) });
-    console.log(user);
-    // check if the ID exists
-    if (user.count() > 0) {
-      PROJECT_COLLECTION.deleteOne({ projectId: parseInt(projectId) });
+    const project = await PROJECT_COLLECTION.findOne({ projectId: parseInt(projectId) });
+    console.log(project);
+
+    if (project) {
+      await PROJECT_COLLECTION.updateOne(
+        { projectId: parseInt(projectId) },
+        {
+          $set: { name, description },
+        }
+      );
+      
       res.send({
-        status: true,
-        data: { projectId },
+        status: true
       });
       return;
     }
 
     res.send({
       status: false,
-      error: "That ProjID doesn't exists",
+      error: "Project ID not exists",
     });
-    return;
+  } catch (error) {
+    res.send({
+      status: false,
+      error: error.toString()
+    });
+  }
+});
 
+// 2.4 delete project
+router.delete("/:projectId", async (req, res) => {
+  const { projectId } = req.params;
+  try {
+    const project = await PROJECT_COLLECTION.findOne({ projectId: parseInt(projectId) });
+    console.log(project);
+
+    if (project) {
+      await PROJECT_COLLECTION.deleteOne({ projectId: parseInt(projectId) });
+
+      res.send({
+        status: true,
+        data: project
+      });
+      return;
+    }
+
+    res.send({
+      status: false,
+      error: "Project ID not exists",
+    });
   } catch (error) {
     res.send({
       status: false,
