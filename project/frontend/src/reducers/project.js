@@ -2,6 +2,7 @@ import {
   PROJECT_ADD,
   PROJECT_ADD_FAIL,
   PROJECT_ADD_SUCCESS,
+  PROJECT_CLOSE_ADD_MODAL,
   PROJECT_CLOSE_DETAIL_MODAL,
   PROJECT_DELETE,
   PROJECT_DELETE_FAIL,
@@ -18,6 +19,7 @@ import {
   PROJECT_LEAVE,
   PROJECT_LEAVE_FAIL,
   PROJECT_LEAVE_SUCCESS,
+  PROJECT_OPEN_ADD_MODAL,
   PROJECT_OPEN_DETAIL_MODAL
 } from "../actions/types/project"
 import { MOCK_PROJECTS } from "./mock/project"
@@ -25,6 +27,7 @@ import { MOCK_PROJECTS } from "./mock/project"
 const initialState = {
   loading: false,  // whole page reloading
   submitting: false,  // operation submitting
+  addProjectModalShow: false,
   detailModalShow: false,
   projects: MOCK_PROJECTS,
   currentProjectId: -1,
@@ -61,8 +64,14 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_OPEN_DETAIL_MODAL:
       return { ...state, detailModalShow: true, currentProjectId: payload.projectId }
 
+    case PROJECT_OPEN_ADD_MODAL:
+      return { ...state, addProjectModalShow: true }
+
     case PROJECT_CLOSE_DETAIL_MODAL:
       return { ...state, detailModalShow: false }
+
+    case PROJECT_CLOSE_ADD_MODAL:
+      return { ...state, addProjectModalShow: false }
 
     default:
       return state

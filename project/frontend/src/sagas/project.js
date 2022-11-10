@@ -2,6 +2,7 @@ import { all, call, put } from "redux-saga/effects";
 import {
   PROJECT_ADD_FAIL,
   PROJECT_ADD_SUCCESS,
+  PROJECT_CLOSE_ADD_MODAL,
   PROJECT_DELETE_FAIL,
   PROJECT_DELETE_SUCCESS,
   PROJECT_EDIT_FAIL,
@@ -18,14 +19,11 @@ import { addProjectAPI, deleteProjectAPI, editProjectAPI, getProjectsAPI, joinPr
 
 export function* projectGet(action) {
   const { userId } = action.payload;
-  console.log(userId);
 
   try {
     const response = yield call(getProjectsAPI, userId);
-    console.log('zzz', response);
 
     if (response.status) {
-      console.log('rrr', response);
       yield put({ type: PROJECT_GET_SUCCESS, payload: { projects: response.data } });
     } else {
       yield put({ type: PROJECT_GET_FAIL, payload: { error: response.error } });
@@ -36,16 +34,17 @@ export function* projectGet(action) {
 }
 
 export function* projectAdd(action) {
-  const body = action.payload;
-  console.log(body);
+  const { userId, data } = action.payload;
+  console.log(data);
 
   try {
-    const response = yield call(addProjectAPI, body);
+    const response = yield call(addProjectAPI, data);
 
     if (response.status) {
       yield all([
         put({ type: PROJECT_ADD_SUCCESS }),
-        put({ type: PROJECT_GET }),
+        put({ type: PROJECT_CLOSE_ADD_MODAL }),
+        put({ type: PROJECT_GET, payload: { userId } }),
       ]);
     } else {
       yield put({ type: PROJECT_ADD_FAIL, payload: { error: response.error } });

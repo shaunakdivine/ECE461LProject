@@ -6,8 +6,6 @@ export const ProjectPanel = (props) => {
   const { project, onOpenDetail } = props;
   const [joined, setJoined] = useState(project.joined);
 
-  console.log(project);
-
   return (
     <Card>
       <Card.Header className='py-3'>

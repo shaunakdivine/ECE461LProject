@@ -5,12 +5,14 @@ import { connect } from 'react-redux'
 import { checkInHardware, checkOutHardware } from '../../actions/hardware'
 import {
   addProject,
+  closeAddModal,
   closeDetailModal,
   deleteProject,
   editProject,
   getProject,
   joinProject,
   leaveProject,
+  openAddModal,
   openDetailModal
 } from '../../actions/project'
 import { ProjectPanel } from './cell'
@@ -18,11 +20,11 @@ import { DeleteProjectPopup, ProjectDetailPopup, CreateProjectPopup, EditProject
 
 const ConnectProjectContainer = (props) => {
   const {
-    loading, detailModalShow,
+    loading, addModalShow, detailModalShow,
     userId, projects, currentProjectId,
     getProject, addProject, editProject, deleteProject,
     joinProject, leaveProject, checkInHardware, checkOutHardware,
-    closeDetailModal, openDetailModal,
+    openAddModal, openDetailModal, closeAddModal, closeDetailModal,
   } = props;
 
   const [dOpen, setDOpen] = useState(false);
@@ -36,7 +38,7 @@ const ConnectProjectContainer = (props) => {
 
   const onCreateProject = data => {
     console.log('create project', data);
-    addProject(data);
+    addProject({ userId, data });
   };
 
   const onEditProject = (projectId, data) => {
@@ -86,16 +88,12 @@ const ConnectProjectContainer = (props) => {
     onLeaveProject,
     onCheckInProject,
     onCheckOutProject,
+    addProject,
   );
 
   useEffect(() => {
     getProject({ userId });
   }, []);
-
-  useEffect(() => {
-  }, [loading]);
-  
-  
 
   return (
     <>
@@ -111,7 +109,7 @@ const ConnectProjectContainer = (props) => {
           </InputGroup>
         </Col> */}
         <Col md={4} lg={3}>
-          <Button className='w-100'>Add Project</Button>
+          <Button className='w-100' onClick={openAddModal}>Add Project</Button>
         </Col>
         <Col md={4} lg={3}>
           <Button className='w-100' variant='danger' onClick={() => setDOpen(true)}>Delete Project</Button>
@@ -149,7 +147,9 @@ const ConnectProjectContainer = (props) => {
         isOpen={dOpen} 
         onClose={handleCloseD} />
       <CreateProjectPopup
-        onSubmission={onCreateProject} />
+        show={addModalShow}
+        onSubmission={onCreateProject}
+        onClose={closeAddModal} />
       <EditProjectPopup
         onSubmission={onEditProject} />
     </>
@@ -159,6 +159,7 @@ const ConnectProjectContainer = (props) => {
 
 ConnectProjectContainer.propTypes = {
   loading: PropTypes.bool.isRequired,
+  addModalShow: PropTypes.bool.isRequired,
   detailModalShow: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
   projects: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
@@ -171,12 +172,15 @@ ConnectProjectContainer.propTypes = {
   deleteProject: PropTypes.func.isRequired,
   checkInHardware: PropTypes.func.isRequired,
   checkOutHardware: PropTypes.func.isRequired,
+  openAddModal: PropTypes.func.isRequired,
   openDetailModal: PropTypes.func.isRequired,
+  closeAddModal: PropTypes.func.isRequired,
   closeDetailModal: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   loading: state.project.loading,
+  addModalShow: state.project.addProjectModalShow,
   detailModalShow: state.project.detailModalShow,
   userId: state.global.email,
   projects: state.project.projects,
@@ -192,7 +196,9 @@ const mapDispatchToProps = {
   leaveProject,
   checkInHardware,
   checkOutHardware,
+  openAddModal,
   openDetailModal,
+  closeAddModal,
   closeDetailModal,
 }
 
