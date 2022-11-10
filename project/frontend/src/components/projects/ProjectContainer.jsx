@@ -8,6 +8,7 @@ import {
   closeAddModal,
   closeDeleteDialog,
   closeDetailModal,
+  closeEditModal,
   deleteProject,
   editProject,
   getProject,
@@ -15,19 +16,21 @@ import {
   leaveProject,
   openAddModal,
   openDeleteDialog,
-  openDetailModal
+  openDetailModal,
+  openEditModal
 } from '../../actions/project'
 import { ProjectPanel } from './cell'
 import { ProjectDetailPopup, CreateProjectPopup, EditProjectPopup, DeleteProjectPopup } from './popups'
 
 const ConnectProjectContainer = (props) => {
   const {
-    loading, submitting, addModalShow, detailModalShow, deleteDialogShow,
+    loading, submitting,
+    addModalShow, editModalShow, detailModalShow, deleteDialogShow,
     userId, projects, currentProjectId,
     getProject, addProject, editProject, deleteProject,
     joinProject, leaveProject, checkInHardware, checkOutHardware,
-    openAddModal, openDetailModal, openDeleteDialog,
-    closeAddModal, closeDetailModal, closeDeleteDialog,
+    openAddModal, openEditModal, openDetailModal, openDeleteDialog,
+    closeAddModal, closeEditModal, closeDetailModal, closeDeleteDialog,
   } = props;
 
   const handleOpenDetail = id => openDetailModal({ projectId: id });
@@ -37,9 +40,9 @@ const ConnectProjectContainer = (props) => {
     addProject({ userId, data });
   };
 
-  const onEditProject = (projectId, data) => {
-    console.log(`edit project ${projectId}`, data);
-    editProject({ projectId, data });
+  const onEditProject = data => {
+    console.log(`edit project ${currentProjectId}`, data);
+    editProject({ userId, projectId: currentProjectId, data });
   };
 
   const onDeleteProject = () => {
@@ -76,12 +79,11 @@ const ConnectProjectContainer = (props) => {
   // test
   console.debug(
     onEditProject,
-    onDeleteProject,
     onJoinProject,
     onLeaveProject,
     onCheckInProject,
     onCheckOutProject,
-    deleteProject,
+    editProject,
   );
 
   useEffect(() => {
@@ -132,6 +134,7 @@ const ConnectProjectContainer = (props) => {
         show={detailModalShow}
         projectId={currentProjectId}
         projects={projects}
+        onOpenEditModal={openEditModal}
         onOpenDeleteDialog={openDeleteDialog}
         onClose={closeDetailModal} />
       <DeleteProjectPopup 
@@ -145,7 +148,12 @@ const ConnectProjectContainer = (props) => {
         onSubmission={onCreateProject}
         onClose={closeAddModal} />
       <EditProjectPopup
-        onSubmission={onEditProject} />
+        show={editModalShow}
+        projectId={currentProjectId}
+        projects={projects}
+        submitting={submitting}
+        onSubmission={onEditProject}
+        onClose={closeEditModal} />
     </>
 
   )
@@ -155,6 +163,7 @@ ConnectProjectContainer.propTypes = {
   loading: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
   addModalShow: PropTypes.bool.isRequired,
+  editModalShow: PropTypes.bool.isRequired,
   detailModalShow: PropTypes.bool.isRequired,
   deleteDialogShow: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
@@ -169,9 +178,11 @@ ConnectProjectContainer.propTypes = {
   checkInHardware: PropTypes.func.isRequired,
   checkOutHardware: PropTypes.func.isRequired,
   openAddModal: PropTypes.func.isRequired,
+  openEditModal: PropTypes.func.isRequired,
   openDetailModal: PropTypes.func.isRequired,
   openDeleteDialog: PropTypes.func.isRequired,
   closeAddModal: PropTypes.func.isRequired,
+  closeEditModal: PropTypes.func.isRequired,
   closeDetailModal: PropTypes.func.isRequired,
   closeDeleteDialog: PropTypes.func.isRequired,
 }
@@ -180,6 +191,7 @@ const mapStateToProps = (state) => ({
   loading: state.project.loading,
   submitting: state.project.submitting,
   addModalShow: state.project.addProjectModalShow,
+  editModalShow: state.project.editProjectModalShow,
   detailModalShow: state.project.detailModalShow,
   deleteDialogShow: state.project.deleteProjectDialogShow,
   userId: state.global.email,
@@ -197,9 +209,11 @@ const mapDispatchToProps = {
   checkInHardware,
   checkOutHardware,
   openAddModal,
+  openEditModal,
   openDetailModal,
   openDeleteDialog,
   closeAddModal,
+  closeEditModal,
   closeDetailModal,
   closeDeleteDialog,
 }

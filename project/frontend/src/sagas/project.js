@@ -5,6 +5,7 @@ import {
   PROJECT_CLOSE_ADD_MODAL,
   PROJECT_CLOSE_DELETE_DIALOG,
   PROJECT_CLOSE_DETAIL_MODAL,
+  PROJECT_CLOSE_EDIT_MODAL,
   PROJECT_DELETE_FAIL,
   PROJECT_DELETE_SUCCESS,
   PROJECT_EDIT_FAIL,
@@ -59,15 +60,18 @@ export function* projectAdd(action) {
 }
 
 export function* projectEdit(action) {
-  const { projectId, data } = action.payload;
+  const { userId, projectId, data } = action.payload;
 
   try {
+    yield call(dummyTimeAPI, 500);
     const response = yield call(editProjectAPI, projectId, data);
 
     if (response.status) {
+      yield put({ type: PROJECT_CLOSE_EDIT_MODAL });
+      yield put({ type: PROJECT_CLOSE_DETAIL_MODAL });
       yield all([
         put({ type: PROJECT_EDIT_SUCCESS }),
-        put({ type: PROJECT_GET }),
+        put({ type: PROJECT_GET, payload: { userId } }),
       ]);
     } else {
       yield put({ type: PROJECT_EDIT_FAIL, payload: { error: response.error } });
@@ -85,10 +89,8 @@ export function* projectDelete(action) {
     const response = yield call(deleteProjectAPI, projectId);
 
     if (response.status) {
-      yield all([
-        put({ type: PROJECT_CLOSE_DELETE_DIALOG }),
-        put({ type: PROJECT_CLOSE_DETAIL_MODAL }),
-      ])
+      yield put({ type: PROJECT_CLOSE_DELETE_DIALOG });
+      yield put({ type: PROJECT_CLOSE_DETAIL_MODAL });
       yield all([
         put({ type: PROJECT_DELETE_SUCCESS }),
         put({ type: PROJECT_GET, payload: { userId } }),

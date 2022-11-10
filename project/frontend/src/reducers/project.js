@@ -5,6 +5,7 @@ import {
   PROJECT_CLOSE_ADD_MODAL,
   PROJECT_CLOSE_DELETE_DIALOG,
   PROJECT_CLOSE_DETAIL_MODAL,
+  PROJECT_CLOSE_EDIT_MODAL,
   PROJECT_DELETE,
   PROJECT_DELETE_FAIL,
   PROJECT_DELETE_SUCCESS,
@@ -22,7 +23,8 @@ import {
   PROJECT_LEAVE_SUCCESS,
   PROJECT_OPEN_ADD_MODAL,
   PROJECT_OPEN_DELETE_DIALOG,
-  PROJECT_OPEN_DETAIL_MODAL
+  PROJECT_OPEN_DETAIL_MODAL,
+  PROJECT_OPEN_EDIT_MODAL
 } from "../actions/types/project"
 
 const initialState = {
@@ -74,8 +76,11 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_OPEN_ADD_MODAL:
       return { ...state, addProjectModalShow: true }
 
+    case PROJECT_OPEN_EDIT_MODAL:
+      return { ...state, detailModalShow: false, editProjectModalShow: true }
+
     case PROJECT_OPEN_DELETE_DIALOG:
-      return { ...state, deleteProjectDialogShow: true }
+      return { ...state, detailModalShow: false, deleteProjectDialogShow: true }
 
     case PROJECT_CLOSE_DETAIL_MODAL:
       return { ...state, detailModalShow: false }
@@ -83,8 +88,11 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_CLOSE_ADD_MODAL:
       return { ...state, addProjectModalShow: false }
 
+    case PROJECT_CLOSE_EDIT_MODAL:
+      return { ...state, detailModalShow: true, editProjectModalShow: false }
+
     case PROJECT_CLOSE_DELETE_DIALOG:
-      return { ...state, deleteProjectDialogShow: false }
+      return { ...state, detailModalShow: true, deleteProjectDialogShow: false }
 
     default:
       return state

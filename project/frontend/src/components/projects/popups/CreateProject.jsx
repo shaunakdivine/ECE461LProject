@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Row, Spinner } from 'react-bootstrap';
+import { Button, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 
 export const CreateProjectPopup = props => {
-  const { show, submitting, onSubmission, onClose, } = props;
+  const { show, submitting, onSubmission, onClose } = props;
   const [validated, setValidated] = useState(false);
 
   const handleSubmit = event => {
@@ -42,29 +42,27 @@ export const CreateProjectPopup = props => {
             <Form.Label>Name</Form.Label>
             <Form.Control type="string" placeholder="Enter Project Name" name='p-name' required/>
           </Form.Group>
-          <Form.Group className="mb-3">
+          <Form.Group>
             <Form.Label>Description</Form.Label>
             <Form.Control type="string" placeholder="Enter Project Description" name='p-desc' required/>
           </Form.Group>
-          <Row>
-            <Col md={4}>
-              <Button className='w-100' variant='primary' type='submit' form='create-project' disabled={submitting}>
-                {
-                  submitting
-                    ? <Spinner
-                      as="span"
-                      animation="border"
-                      size="sm"
-                      role="status"
-                      aria-hidden="true"
-                    />
-                    : 'Create Project'
-                }
-              </Button>
-            </Col>
-          </Row>
         </Form>
       </Modal.Body>
+      <Modal.Footer>
+        <Button className='w-100' variant='primary' type='submit' form='create-project' disabled={submitting}>
+          {
+            submitting
+              ? <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+              : 'Create Project'
+          }
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 }
