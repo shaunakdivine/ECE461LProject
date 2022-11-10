@@ -23,6 +23,7 @@ const checkedInSchema = new mongoose.Schema(
 
 mongoose.model("CheckedIn", checkedInSchema);
 
+
 const hwSchema = new mongoose.Schema(
   {
     id: Number,
@@ -39,6 +40,8 @@ const ProjectInfo1 = new mongoose.Schema(
     name: String,
     description: String, 
     hardwares: [hwSchema],
+    master: String,
+    authUsers: [String]
   },
   {
     collection: "ProjectInfo",

@@ -4,11 +4,13 @@ const router = Router();
 
 // 2.1 create project
 router.post("/", async (req, res) => {
-  const { name, description, } = req.body;
+  const { userId, name, description, } = req.body;
   const project = {
     name,
     description,
     projectId: Date.now(),
+    master: userId,
+    authUsers: [userId],
     hardwares: [
       {
         id: 0,
@@ -39,6 +41,8 @@ router.post("/", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
   const projects = await PROJECT_COLLECTION.find({});
+
+  console.log(projects);
   
   res.send({
     status: true,
@@ -46,6 +50,8 @@ router.get("/:userId", async (req, res) => {
       id: p.projectId,
       name: p.name,
       description: p.description,
+      master: p.master,
+      authUsers: p.authUsers,
       joined: true,
       hardwares: [
         {
@@ -136,15 +142,85 @@ router.delete("/:projectId", async (req, res) => {
 });
 
 // 2.5 join project
-router.put("/join/:userId/:projectId", (req, res) => {
-  console.log(req.params.userId);
-  console.log(req.params.projectId);
+router.put("/join", (req, res) => {
+  const { projectId } = req.body;
+  try {
+    const user = PROJECT_COLLECTION.findOne({ projectId });
+
+    // check if the user exists
+    if (user) {
+      res.send({
+        status: true,
+      });
+      return;
+    }
+    else{
+      res.send("Doesn't exist");
+      return;
+    }
+
+  } catch (error) {
+    res.send({
+      status: false,
+      error: error.toString()
+    });
+  }
+
+  // console.log(req.params.userId);
+  // console.log(req.params.projectId);
 });
 
 // 2.6 leave project
 router.put("/leave/:userId/:projectId", (req, res) => {
   console.log(req.params.userId);
   console.log(req.params.projectId);
+});
+
+// 2.7 Add authorized user
+router.put("/addUser/:projectId/:masterId/:newUserId", async (req, res) => {
+  const { projectId, masterId, newUserId } = req.params;
+
+  // check if project exists
+  try {
+    const project = await PROJECT_COLLECTION.findOne({ projectId: parseInt(projectId) });
+
+    // check if project exists
+    if (!project) {
+      res.send({
+        status: false,
+        error: "Project not exist",
+      });
+      return;
+    }
+
+    // check if you are the master
+    if (project.master !== masterId) {
+      res.send({
+        status: false,
+        error: "You are not the project master",
+      });
+      return;
+    }
+
+    // add new authorized user
+    await PROJECT_COLLECTION.updateOne(
+      { projectId: parseInt(projectId) },
+      {
+        $push: { authUsers: newUserId }
+      }
+    );
+
+    res.send({
+      status: true,
+      data: "done",
+    });
+  } catch (error) {
+    res.send({
+      status: false,
+      error: error.toString()
+    });
+  }
+  // add it
 });
 
 module.exports = router;
