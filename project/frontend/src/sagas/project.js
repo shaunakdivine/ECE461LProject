@@ -3,6 +3,8 @@ import {
   PROJECT_ADD_FAIL,
   PROJECT_ADD_SUCCESS,
   PROJECT_CLOSE_ADD_MODAL,
+  PROJECT_CLOSE_DELETE_DIALOG,
+  PROJECT_CLOSE_DETAIL_MODAL,
   PROJECT_DELETE_FAIL,
   PROJECT_DELETE_SUCCESS,
   PROJECT_EDIT_FAIL,
@@ -16,11 +18,13 @@ import {
   PROJECT_LEAVE_SUCCESS
 } from "../actions/types/project";
 import { addProjectAPI, deleteProjectAPI, editProjectAPI, getProjectsAPI, joinProjectAPI, leaveProjectAPI } from "../apis/project";
+import { dummyTimeAPI } from "../apis/test";
 
 export function* projectGet(action) {
   const { userId } = action.payload;
 
   try {
+    yield call(dummyTimeAPI, 500);
     const response = yield call(getProjectsAPI, userId);
 
     if (response.status) {
@@ -35,9 +39,9 @@ export function* projectGet(action) {
 
 export function* projectAdd(action) {
   const { userId, data } = action.payload;
-  console.log(data);
 
   try {
+    yield call(dummyTimeAPI, 200);
     const response = yield call(addProjectAPI, data);
 
     if (response.status) {
@@ -56,7 +60,6 @@ export function* projectAdd(action) {
 
 export function* projectEdit(action) {
   const { projectId, data } = action.payload;
-  console.log(projectId, data);
 
   try {
     const response = yield call(editProjectAPI, projectId, data);
@@ -75,16 +78,20 @@ export function* projectEdit(action) {
 }
 
 export function* projectDelete(action) {
-  const { projectId } = action.payload;
-  console.log(projectId);
+  const { userId, projectId } = action.payload;
 
   try {
+    yield call(dummyTimeAPI, 500);
     const response = yield call(deleteProjectAPI, projectId);
 
     if (response.status) {
       yield all([
+        put({ type: PROJECT_CLOSE_DELETE_DIALOG }),
+        put({ type: PROJECT_CLOSE_DETAIL_MODAL }),
+      ])
+      yield all([
         put({ type: PROJECT_DELETE_SUCCESS }),
-        put({ type: PROJECT_GET }),
+        put({ type: PROJECT_GET, payload: { userId } }),
       ]);
     } else {
       yield put({ type: PROJECT_DELETE_FAIL, payload: { error: response.error } });
@@ -96,7 +103,6 @@ export function* projectDelete(action) {
 
 export function* projectJoin(action) {
   const body = action.payload;
-  console.log(body);
 
   try {
     const response = yield call(joinProjectAPI, body);
@@ -116,7 +122,6 @@ export function* projectJoin(action) {
 
 export function* projectLeave(action) {
   const body = action.payload;
-  console.log(body);
 
   try {
     const response = yield call(leaveProjectAPI, body);

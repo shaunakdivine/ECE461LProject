@@ -4,7 +4,7 @@ import { ProjectContainer } from '../../../components/projects';
 
 function ProjectsPage() {
   return (
-    <BasePage title='Projects'>
+    <BasePage title='All Projects'>
       <ProjectContainer />
     </BasePage>
   )

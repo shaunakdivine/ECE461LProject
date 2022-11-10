@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Button, Col, Row, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { checkInHardware, checkOutHardware } from '../../actions/hardware'
 import {
   addProject,
   closeAddModal,
+  closeDeleteDialog,
   closeDetailModal,
   deleteProject,
   editProject,
@@ -13,26 +14,21 @@ import {
   joinProject,
   leaveProject,
   openAddModal,
+  openDeleteDialog,
   openDetailModal
 } from '../../actions/project'
 import { ProjectPanel } from './cell'
-import { DeleteProjectPopup, ProjectDetailPopup, CreateProjectPopup, EditProjectPopup } from './popups'
+import { ProjectDetailPopup, CreateProjectPopup, EditProjectPopup, DeleteProjectPopup } from './popups'
 
 const ConnectProjectContainer = (props) => {
   const {
-    loading, addModalShow, detailModalShow,
+    loading, submitting, addModalShow, detailModalShow, deleteDialogShow,
     userId, projects, currentProjectId,
     getProject, addProject, editProject, deleteProject,
     joinProject, leaveProject, checkInHardware, checkOutHardware,
-    openAddModal, openDetailModal, closeAddModal, closeDetailModal,
+    openAddModal, openDetailModal, openDeleteDialog,
+    closeAddModal, closeDetailModal, closeDeleteDialog,
   } = props;
-
-  const [dOpen, setDOpen] = useState(false);
-
-  // test
-  const handleCloseD = () => {
-    setDOpen(false);
-  }
 
   const handleOpenDetail = id => openDetailModal({ projectId: id });
 
@@ -46,9 +42,9 @@ const ConnectProjectContainer = (props) => {
     editProject({ projectId, data });
   };
 
-  const onDeleteProject = projectId => {
-    console.log(`delete project ${projectId}`);
-    deleteProject({ projectId });
+  const onDeleteProject = () => {
+    console.log(`delete project ${currentProjectId}`);
+    deleteProject({ userId, projectId: currentProjectId });
   };
 
   const onJoinProject = projectId => {
@@ -79,16 +75,13 @@ const ConnectProjectContainer = (props) => {
 
   // test
   console.debug(
-    userId,
-    getProject,
-    onCreateProject,
     onEditProject,
     onDeleteProject,
     onJoinProject,
     onLeaveProject,
     onCheckInProject,
     onCheckOutProject,
-    addProject,
+    deleteProject,
   );
 
   useEffect(() => {
@@ -110,9 +103,6 @@ const ConnectProjectContainer = (props) => {
         </Col> */}
         <Col md={4} lg={3}>
           <Button className='w-100' onClick={openAddModal}>Add Project</Button>
-        </Col>
-        <Col md={4} lg={3}>
-          <Button className='w-100' variant='danger' onClick={() => setDOpen(true)}>Delete Project</Button>
         </Col>
       </Row>
       {
@@ -142,12 +132,16 @@ const ConnectProjectContainer = (props) => {
         show={detailModalShow}
         projectId={currentProjectId}
         projects={projects}
+        onOpenDeleteDialog={openDeleteDialog}
         onClose={closeDetailModal} />
       <DeleteProjectPopup 
-        isOpen={dOpen} 
-        onClose={handleCloseD} />
+        show={deleteDialogShow}
+        submitting={submitting}
+        onDeleteProject={onDeleteProject}
+        onClose={closeDeleteDialog} />
       <CreateProjectPopup
         show={addModalShow}
+        submitting={submitting}
         onSubmission={onCreateProject}
         onClose={closeAddModal} />
       <EditProjectPopup
@@ -159,8 +153,10 @@ const ConnectProjectContainer = (props) => {
 
 ConnectProjectContainer.propTypes = {
   loading: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
   addModalShow: PropTypes.bool.isRequired,
   detailModalShow: PropTypes.bool.isRequired,
+  deleteDialogShow: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
   projects: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   currentProjectId: PropTypes.number.isRequired,
@@ -174,14 +170,18 @@ ConnectProjectContainer.propTypes = {
   checkOutHardware: PropTypes.func.isRequired,
   openAddModal: PropTypes.func.isRequired,
   openDetailModal: PropTypes.func.isRequired,
+  openDeleteDialog: PropTypes.func.isRequired,
   closeAddModal: PropTypes.func.isRequired,
   closeDetailModal: PropTypes.func.isRequired,
+  closeDeleteDialog: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   loading: state.project.loading,
+  submitting: state.project.submitting,
   addModalShow: state.project.addProjectModalShow,
   detailModalShow: state.project.detailModalShow,
+  deleteDialogShow: state.project.deleteProjectDialogShow,
   userId: state.global.email,
   projects: state.project.projects,
   currentProjectId: state.project.currentProjectId,
@@ -198,8 +198,10 @@ const mapDispatchToProps = {
   checkOutHardware,
   openAddModal,
   openDetailModal,
+  openDeleteDialog,
   closeAddModal,
   closeDetailModal,
+  closeDeleteDialog,
 }
 
 export const ProjectContainer = connect(mapStateToProps, mapDispatchToProps)(ConnectProjectContainer)

@@ -40,7 +40,7 @@ function ConnectSidebar(props) {
         </Nav.Item>
         <Nav.Item as='li'>
           <LinkContainer to='/projects'>
-            <Nav.Link active={isActive('/projects')}>Projects</Nav.Link>
+            <Nav.Link active={isActive('/projects')}>All Projects</Nav.Link>
           </LinkContainer>
         </Nav.Item>
         {/* <Nav.Item as='li'>
