@@ -41,7 +41,7 @@ const STAFFS = {
 
 function AboutPage() {
   return (
-    <BasePage title='About'>
+    <BasePage title='Team 626'>
       <StaffContainer className='mb-4' groupTitle='Front-end Development' staffs={STAFFS.frontend} />
       <StaffContainer groupTitle='Back-end Development' staffs={STAFFS.backend} />
     </BasePage>
