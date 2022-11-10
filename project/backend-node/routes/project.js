@@ -41,8 +41,6 @@ router.post("/", async (req, res) => {
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
   const projects = await PROJECT_COLLECTION.find({});
-
-  console.log(projects);
   
   res.send({
     status: true,
@@ -84,7 +82,6 @@ router.put("/:projectId", async (req, res) => {
 
   try {
     const project = await PROJECT_COLLECTION.findOne({ projectId: parseInt(projectId) });
-    console.log(project);
 
     if (project) {
       await PROJECT_COLLECTION.updateOne(
@@ -117,7 +114,6 @@ router.delete("/:projectId", async (req, res) => {
   const { projectId } = req.params;
   try {
     const project = await PROJECT_COLLECTION.findOne({ projectId: parseInt(projectId) });
-    console.log(project);
 
     if (project) {
       await PROJECT_COLLECTION.deleteOne({ projectId: parseInt(projectId) });
@@ -142,38 +138,125 @@ router.delete("/:projectId", async (req, res) => {
 });
 
 // 2.5 join project
-router.put("/join", (req, res) => {
-  const { projectId } = req.body;
+router.put("/join/:userId/:projectId", async (req, res) => {
+  const { userId, projectId } = req.params;
+
   try {
-    const user = PROJECT_COLLECTION.findOne({ projectId });
+    const user = await USER_COLLECTION.findOne({ email: userId });
+    const project = await PROJECT_COLLECTION.findOne({ projectId });
 
     // check if the user exists
-    if (user) {
+    if (!user) {
       res.send({
-        status: true,
+        status: false,
+        error: "User not exists"
       });
       return;
     }
-    else{
-      res.send("Doesn't exist");
+    
+    // check if the project exists
+    if (!project) {
+      res.send({
+        status: false,
+        error: "Project not exists"
+      });
       return;
     }
 
+    // check if the user already joined the project
+    if (user.projectIds.includes(projectId)) {
+      res.send({
+        status: false,
+        error: `User ${userId} already joined project ${projectId}`
+      });
+      return;
+    }
+
+    // check if the user is authorized to join the project
+    if (!project.authUsers.includes(userId)) {
+      res.send({
+        status: false,
+        error: `User ${userId} is not authorized to join project ${projectId}`
+      });
+      return;
+    }
+
+    // join
+    await USER_COLLECTION.updateOne(
+      { email: userId },
+      {
+        $push: { projectIds: projectId }
+      }
+    )
+
+    res.send({
+      status: true,
+      msg: 'done'
+    });
   } catch (error) {
     res.send({
       status: false,
       error: error.toString()
     });
   }
-
-  // console.log(req.params.userId);
-  // console.log(req.params.projectId);
 });
 
 // 2.6 leave project
-router.put("/leave/:userId/:projectId", (req, res) => {
-  console.log(req.params.userId);
-  console.log(req.params.projectId);
+router.put("/leave/:userId/:projectId", async (req, res) => {
+  const { userId, projectId } = req.params;
+
+  try {
+    const user = await USER_COLLECTION.findOne({ email: userId });
+    const project = await PROJECT_COLLECTION.findOne({ projectId });
+
+    // check if the user exists
+    if (!user) {
+      res.send({
+        status: false,
+        error: "User not exists"
+      });
+      return;
+    }
+
+    // check if the project exists
+    if (!project) {
+      res.send({
+        status: false,
+        error: "Project not exists"
+      });
+      return;
+    }
+
+    // check if the user actually in the project
+    if (!user.projectIds.includes(projectId)) {
+      res.send({
+        status: false,
+        error: `User ${userId} did not joined project ${projectId}`
+      });
+      return;
+    }
+
+    // check if the user has any hardware checked in in this project
+    // TODO: iterate through the hws to check
+
+    // leave the project
+    await USER_COLLECTION.updateOne(
+      { email: userId },
+      {
+        $pull: { projectIds: projectId }
+      }
+    )
+
+    res.send({
+      status: true,
+      msg: 'done'
+    });
+  } catch (error) {
+    res.send({
+      status: false,
+      error: error.toString()
+    });
+  }
 });
 
 // 2.7 Add authorized user
@@ -202,6 +285,15 @@ router.put("/addUser/:projectId/:masterId/:newUserId", async (req, res) => {
       return;
     }
 
+    // check if new user already in the authorized list
+    if (project.authUsers.includes(newUserId)) {
+      res.send({
+        status: false,
+        error: `User ${newUserId} already authorized`,
+      });
+      return;
+    }
+
     // add new authorized user
     await PROJECT_COLLECTION.updateOne(
       { projectId: parseInt(projectId) },
@@ -212,7 +304,7 @@ router.put("/addUser/:projectId/:masterId/:newUserId", async (req, res) => {
 
     res.send({
       status: true,
-      data: "done",
+      msg: 'done'
     });
   } catch (error) {
     res.send({
@@ -220,7 +312,6 @@ router.put("/addUser/:projectId/:masterId/:newUserId", async (req, res) => {
       error: error.toString()
     });
   }
-  // add it
 });
 
 module.exports = router;

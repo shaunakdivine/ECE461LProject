@@ -132,6 +132,7 @@ const ConnectProjectContainer = (props) => {
       }
       <ProjectDetailPopup
         show={detailModalShow}
+        userId={userId}
         projectId={currentProjectId}
         projects={projects}
         onOpenEditModal={openEditModal}

@@ -43,7 +43,7 @@ export function* projectAdd(action) {
 
   try {
     yield call(dummyTimeAPI, 200);
-    const response = yield call(addProjectAPI, data);
+    const response = yield call(addProjectAPI, { ...data , userId});
 
     if (response.status) {
       yield all([

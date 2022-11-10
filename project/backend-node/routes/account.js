@@ -5,6 +5,7 @@ const { TOKEN_MAP } = require('../utilities/global');
 
 const router = Router();
 
+// 1.1
 router.post("/register", async (req, res) => {
   const { fname, lname, email, password } = req.body;
 
@@ -40,6 +41,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// 1.2
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -84,6 +86,28 @@ router.post("/login", async (req, res) => {
     });
   }
   catch (error) {
+    res.send({
+      status: false,
+      error: error.toString(),
+    });
+  }
+});
+
+// 1.3
+router.get("/", async (req, res) => {
+  try {
+    const users = await USER_COLLECTION.find({});
+
+    res.send({
+      status: true,
+      data: users.map(u => ({
+        email: u.email,
+        fname: u.fname,
+        lname: u.lname,
+        projectIds: u.projectIds,
+      })),
+    });
+  } catch (error) {
     res.send({
       status: false,
       error: error.toString(),

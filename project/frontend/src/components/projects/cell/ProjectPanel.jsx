@@ -10,7 +10,14 @@ export const ProjectPanel = (props) => {
     <Card>
       <Card.Header className='py-3'>
         <h3 className={`fw-bold m-0${joined ? '' : ' text-muted'}`}>{project.name}</h3>
+        <p className='text-muted m-0'>
+          <small>{project.master}</small>
+        </p>
       </Card.Header>
+      <Card.Body className={joined ? '' : ' text-muted'}>
+        <Card.Title>Authorized Users</Card.Title>
+        <small>{project.authUsers.join(', ')}</small>
+      </Card.Body>
       <ListGroup as='ul' variant="flush">
         {
           project.hardwares.map(hardware => (

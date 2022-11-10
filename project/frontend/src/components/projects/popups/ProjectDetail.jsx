@@ -5,13 +5,15 @@ import { ProjectHWPanel } from '../cell';
 
 export const ProjectDetailPopup = props => {
   const {
-    show, projectId, projects,
+    show, userId, projectId, projects,
     onOpenEditModal, onOpenDeleteDialog, onClose,
   } = props;
   const [project, setProject] = useState({
     id: -1,
     name: '',
     joined: false,
+    master: '',
+    authUsers: [],
     hardwares: [],
   })
 
@@ -28,6 +30,15 @@ export const ProjectDetailPopup = props => {
         <Modal.Title>{project.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <p className='text-muted'>
+          <small>Project ID: {project.id}</small>
+          <br />
+          <small>Created By: {userId === project.master ? 'You' : project.master}</small>
+          <br/>
+          <small>Authoirzed Users: {project.authUsers.join(', ')}</small>
+        </p>
+        <hr/>
+        {/* <p className='text-muted'><small>Authoirzed Users: {project.master}</small></p> */}
         <p>{project.description}</p>
         <h4 className='mb-3'>Hardware Sets</h4>
         <Row className='g-3 justify-content-center'>
@@ -44,6 +55,12 @@ export const ProjectDetailPopup = props => {
           <Col md={6} lg={4} xl={3}>
             <Button className='w-100' variant='danger' onClick={() => onOpenDeleteDialog()}>Delete Project</Button>
           </Col>
+          {
+            userId === project.master &&
+            <Col lg={6} xl={4}>
+              <Button className='w-100' variant='primary' onClick={() => { }}>Add Authorized Users</Button>
+            </Col>
+          }
         </Row>
       </Modal.Body>
     </Modal>
@@ -53,6 +70,7 @@ export const ProjectDetailPopup = props => {
 ProjectDetailPopup.propTypes = {
   show: PropTypes.bool.isRequired,
   // loading: PropTypes.bool.isRequired,
+  userId: PropTypes.string.isRequired,
   projectId: PropTypes.number.isRequired,
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
   // onCheckIn: PropTypes.func.isRequired,
