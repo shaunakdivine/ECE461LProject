@@ -2,6 +2,23 @@ const { Router } = require('express');
 const { USER_COLLECTION, PROJECT_COLLECTION } = require('../utilities/database');
 const router = Router();
 
+// 2.9 list all projects
+router.get("/all", async (req, res) => {
+  try {
+    const projects = await PROJECT_COLLECTION.find({});
+
+    res.send({
+      status: true,
+      data: projects,
+    });
+  } catch (error) {
+    res.send({
+      status: false,
+      error: error.toString()
+    });
+  }
+});
+
 // 2.1 create project
 router.post("/", async (req, res) => {
   const { userId, name, description, } = req.body;
@@ -37,42 +54,61 @@ router.post("/", async (req, res) => {
   });
 });
 
-// 2.2 list projects
+// 2.2 list authorized projects
 router.get("/:userId", async (req, res) => {
   const { userId } = req.params;
-  const projects = await PROJECT_COLLECTION.find({});
-  
-  res.send({
-    status: true,
-    data: projects.map(p => ({
-      id: p.projectId,
-      name: p.name,
-      description: p.description,
-      master: p.master,
-      authUsers: p.authUsers,
-      joined: true,
-      hardwares: [
-        {
-          id: 0,
-          name: 'HWSet1',
-          checkedIn: 0,
-          capacity: 100,
-        },
-        {
-          id: 1,
-          name: 'HWSet2',
-          checkedIn: 0,
-          capacity: 100,
-        },
-        {
-          id: 2,
-          name: 'HWSet3',
-          checkedIn: 0,
-          capacity: 100,
-        },
-      ]
-    }))
-  })
+  try {
+    const user = await USER_COLLECTION.findOne({ email: userId });
+    const projects = await PROJECT_COLLECTION.find({});
+
+    // check if the user exists
+    if (!user) {
+      res.send({
+        status: false,
+        error: "User not exists"
+      });
+      return;
+    }
+
+    res.send({
+      status: true,
+      data: projects
+        .filter(p => p.authUsers.includes(userId))
+        .map(p => ({
+          id: p.projectId,
+          name: p.name,
+          description: p.description,
+          master: p.master,
+          authUsers: p.authUsers,
+          joined: user.projectIds.includes(p.projectId),
+          hardwares: [
+            {
+              id: 0,
+              name: 'HWSet1',
+              checkedIn: 0,
+              capacity: 100,
+            },
+            {
+              id: 1,
+              name: 'HWSet2',
+              checkedIn: 0,
+              capacity: 100,
+            },
+            {
+              id: 2,
+              name: 'HWSet3',
+              checkedIn: 0,
+              capacity: 100,
+            },
+          ]
+        }))
+    });
+  } catch (error) {
+    res.send({
+      status: false,
+      error: error.toString()
+    });
+  }
 });
 
 // 2.3 edit project

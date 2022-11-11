@@ -58,7 +58,7 @@ export const ProjectDetailPopup = props => {
           {
             userId === project.master &&
             <Col lg={6} xl={4}>
-              <Button className='w-100' variant='primary' onClick={() => { }}>Add Authorized Users</Button>
+              <Button className='w-100' variant='primary' onClick={() => { }}>Add Authorized Users (WIP)</Button>
             </Col>
           }
         </Row>

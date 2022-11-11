@@ -46,9 +46,11 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_ADD:
     case PROJECT_EDIT:
     case PROJECT_DELETE:
+      return { ...state, submitting: true }
+
     case PROJECT_JOIN:
     case PROJECT_LEAVE:
-      return { ...state, submitting: true }
+      return { ...state, submitting: true, currentProjectId: payload.projectId }
 
     case PROJECT_GET_SUCCESS:
       return { ...state, loading: false, projects: payload.projects }

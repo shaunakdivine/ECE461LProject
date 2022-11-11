@@ -78,9 +78,6 @@ const ConnectProjectContainer = (props) => {
 
   // test
   console.debug(
-    onEditProject,
-    onJoinProject,
-    onLeaveProject,
     onCheckInProject,
     onCheckOutProject,
     editProject,
@@ -124,7 +121,12 @@ const ConnectProjectContainer = (props) => {
             {
               projects.map(p => (
                 <Col sm={6} xl={4} key={p.id}>
-                  <ProjectPanel project={p} onOpenDetail={handleOpenDetail} />
+                  <ProjectPanel
+                    submitting={submitting && currentProjectId === p.id}
+                    project={p}
+                    onJoin={onJoinProject}
+                    onLeave={onLeaveProject}
+                    onOpenDetail={handleOpenDetail} />
                 </Col>
               ))
             }

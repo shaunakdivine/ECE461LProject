@@ -107,12 +107,13 @@ export function* projectJoin(action) {
   const body = action.payload;
 
   try {
+    yield call(dummyTimeAPI, 500);
     const response = yield call(joinProjectAPI, body);
 
     if (response.status) {
       yield all([
         put({ type: PROJECT_JOIN_SUCCESS }),
-        put({ type: PROJECT_GET }),
+        put({ type: PROJECT_GET, payload: { userId: body.userId } }),
       ])
     } else {
       yield put({ type: PROJECT_JOIN_FAIL, payload: { error: response.error } });
@@ -126,12 +127,13 @@ export function* projectLeave(action) {
   const body = action.payload;
 
   try {
+    yield call(dummyTimeAPI, 500);
     const response = yield call(leaveProjectAPI, body);
 
     if (response.status) {
       yield all([
         put({ type: PROJECT_LEAVE_SUCCESS }),
-        put({ type: PROJECT_GET }),
+        put({ type: PROJECT_GET, payload: { userId: body.userId } }),
       ])
     } else {
       yield put({ type: PROJECT_LEAVE_FAIL, payload: { error: response.error } });
