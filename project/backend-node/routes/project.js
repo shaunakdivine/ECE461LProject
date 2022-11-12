@@ -84,32 +84,15 @@ router.get("/:userId", async (req, res) => {
           master: p.master,
           authUsers: p.authUsers,
           joined: user.projectIds.includes(p.projectId),
-          hw: p.hardwares.map(h => ({
+          hardwares: p.hardwares.map(h => ({
             id: h.id,
             name: h.name,
-            checkedIn: h.checkedIn,
+            checkedIn:
+              h.checkedIn.filter(u => u.userID === userId).length === 1
+                ? h.checkedIn.find(u => u.userID === userId).amount
+                : 0,
             capacity: h.capacity,
-          })),
-          hardwares: [
-            {
-              id: 0,
-              name: 'HWSet1',
-              checkedIn: 0,
-              capacity: 100,
-            },
-            {
-              id: 1,
-              name: 'HWSet2',
-              checkedIn: 0,
-              capacity: 100,
-            },
-            {
-              id: 2,
-              name: 'HWSet3',
-              checkedIn: 0,
-              capacity: 100,
-            },
-          ]
+          }))
         }))
     });
   } catch (error) {
