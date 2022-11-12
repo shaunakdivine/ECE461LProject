@@ -264,10 +264,16 @@ router.put("/leave/:userId/:projectId", async (req, res) => {
       return;
     }
 
-    // check if the user has any hardware checked in in this project
-    // TODO: iterate through the hws to check
+    // leave the project, remove all check in record from that project
+    await PROJECT_COLLECTION.updateOne(
+      { projectId: parseInt(projectId) },
+      {
+        $pull: {
+          'hardwares.$[].checkedIn': { userID: userId },
+        }
+      }
+    );
 
-    // leave the project
     await USER_COLLECTION.updateOne(
       { email: userId },
       {
