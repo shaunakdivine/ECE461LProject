@@ -24,7 +24,7 @@ const ProjectInfo1 = new mongoose.Schema(
       name: String,
       capacity: Number,
       checkedIn: [{
-        userID: Number,
+        userID: String,
         amount: Number,
       }],
     }],

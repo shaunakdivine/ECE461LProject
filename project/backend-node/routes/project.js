@@ -188,7 +188,7 @@ router.put("/join/:userId/:projectId", async (req, res) => {
 
   try {
     const user = await USER_COLLECTION.findOne({ email: userId });
-    const project = await PROJECT_COLLECTION.findOne({ projectId });
+    const project = await PROJECT_COLLECTION.findOne({ projectId: parseInt(projectId) });
 
     // check if the user exists
     if (!user) {
@@ -230,7 +230,7 @@ router.put("/join/:userId/:projectId", async (req, res) => {
     await USER_COLLECTION.updateOne(
       { email: userId },
       {
-        $push: { projectIds: projectId }
+        $push: { projectIds: parseInt(projectId) }
       }
     )
 
@@ -252,7 +252,7 @@ router.put("/leave/:userId/:projectId", async (req, res) => {
 
   try {
     const user = await USER_COLLECTION.findOne({ email: userId });
-    const project = await PROJECT_COLLECTION.findOne({ projectId });
+    // const project = await PROJECT_COLLECTION.findOne({ projectId: parseInt(projectId) });
 
     // check if the user exists
     if (!user) {
@@ -263,17 +263,17 @@ router.put("/leave/:userId/:projectId", async (req, res) => {
       return;
     }
 
-    // check if the project exists
-    if (!project) {
-      res.send({
-        status: false,
-        error: "Project not exists"
-      });
-      return;
-    }
+    // no need to check if the project exists
+    // if (!project) {
+    //   res.send({
+    //     status: false,
+    //     error: "Project not exists"
+    //   });
+    //   return;
+    // }
 
     // check if the user actually in the project
-    if (!user.projectIds.includes(projectId)) {
+    if (!user.projectIds.includes(parseInt(projectId))) {
       res.send({
         status: false,
         error: `User ${userId} did not joined project ${projectId}`
