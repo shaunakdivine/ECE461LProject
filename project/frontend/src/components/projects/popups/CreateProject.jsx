@@ -32,7 +32,7 @@ export const CreateProjectPopup = props => {
   }
 
   return (
-    <Modal show={show} onHide={onClose} backdrop='static' keyboard={false}>
+    <Modal show={show} onHide={onClose} backdrop='static' keyboard={false} centered>
       <Modal.Header closeButton>
         <Modal.Title>Create A New Project</Modal.Title>
       </Modal.Header>

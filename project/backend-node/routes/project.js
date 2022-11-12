@@ -32,16 +32,19 @@ router.post("/", async (req, res) => {
       {
         id: 0,
         name: 'HWSet1',
+        capacity: 100,
         checkedIn: [],
       },
       {
         id: 1,
         name: 'HWSet2',
+        capacity: 100,
         checkedIn: [],
       },
       {
         id: 2,
         name: 'HWSet3',
+        capacity: 100,
         checkedIn: [],
       },
     ]
@@ -81,6 +84,12 @@ router.get("/:userId", async (req, res) => {
           master: p.master,
           authUsers: p.authUsers,
           joined: user.projectIds.includes(p.projectId),
+          hw: p.hardwares.map(h => ({
+            id: h.id,
+            name: h.name,
+            checkedIn: h.checkedIn,
+            capacity: h.capacity,
+          })),
           hardwares: [
             {
               id: 0,
@@ -151,19 +160,19 @@ router.delete("/:projectId", async (req, res) => {
   try {
     const project = await PROJECT_COLLECTION.findOne({ projectId: parseInt(projectId) });
 
-    if (project) {
-      await PROJECT_COLLECTION.deleteOne({ projectId: parseInt(projectId) });
-
+    if (!project) {
       res.send({
-        status: true,
-        data: project
+        status: false,
+        error: "Project ID not exists",
       });
       return;
     }
 
+    await PROJECT_COLLECTION.deleteOne({ projectId: parseInt(projectId) });
+
     res.send({
-      status: false,
-      error: "Project ID not exists",
+      status: true,
+      msg: 'done'
     });
   } catch (error) {
     res.send({

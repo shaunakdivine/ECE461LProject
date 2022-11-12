@@ -14,32 +14,20 @@ const UserDetailsScehma = new mongoose.Schema(
   }
 );
 
-const checkedInSchema = new mongoose.Schema(
-  {
-    userID: Number,
-    amount: Number,
-  }
-);
-
-mongoose.model("CheckedIn", checkedInSchema);
-
-
-const hwSchema = new mongoose.Schema(
-  {
-    id: Number,
-    Name: String,
-    checkedIn: [checkedInSchema],
-  }
-);
-
-mongoose.model("HW", hwSchema);
-
 const ProjectInfo1 = new mongoose.Schema(
   {
     projectId: {type: Number,unique: true},
     name: String,
     description: String, 
-    hardwares: [hwSchema],
+    hardwares: [{
+      id: Number,
+      name: String,
+      capacity: Number,
+      checkedIn: [{
+        userID: Number,
+        amount: Number,
+      }],
+    }],
     master: String,
     authUsers: [String]
   },
