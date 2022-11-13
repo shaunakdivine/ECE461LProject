@@ -15,6 +15,12 @@ import {
   PROJECT_GET,
   PROJECT_GET_FAIL,
   PROJECT_GET_SUCCESS,
+  PROJECT_HW_CHECK_IN,
+  PROJECT_HW_CHECK_IN_FAIL,
+  PROJECT_HW_CHECK_IN_SUCCESS,
+  PROJECT_HW_CHECK_OUT,
+  PROJECT_HW_CHECK_OUT_FAIL,
+  PROJECT_HW_CHECK_OUT_SUCCESS,
   PROJECT_JOIN,
   PROJECT_JOIN_FAIL,
   PROJECT_JOIN_SUCCESS,
@@ -46,6 +52,8 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_ADD:
     case PROJECT_EDIT:
     case PROJECT_DELETE:
+    case PROJECT_HW_CHECK_IN:
+    case PROJECT_HW_CHECK_OUT:
       return { ...state, submitting: true }
 
     case PROJECT_JOIN:
@@ -59,18 +67,24 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_EDIT_SUCCESS:
     case PROJECT_JOIN_SUCCESS:
     case PROJECT_LEAVE_SUCCESS:
+    case PROJECT_HW_CHECK_IN_SUCCESS:
+    case PROJECT_HW_CHECK_OUT_SUCCESS:
       return { ...state, submitting: false }
     
     case PROJECT_DELETE_SUCCESS:
       return { ...state, submitting: false, currentProjectId: -1 }
 
     case PROJECT_GET_FAIL:
+      return { ...state, loading: false }
+
     case PROJECT_ADD_FAIL:
     case PROJECT_EDIT_FAIL:
     case PROJECT_DELETE_FAIL:
     case PROJECT_JOIN_FAIL:
     case PROJECT_LEAVE_FAIL:
-      return { ...state, loading: false }
+    case PROJECT_HW_CHECK_IN_FAIL:
+    case PROJECT_HW_CHECK_OUT_FAIL:
+      return { ...state, submitting: false }
 
     case PROJECT_OPEN_DETAIL_MODAL:
       return { ...state, detailModalShow: true, currentProjectId: payload.projectId }

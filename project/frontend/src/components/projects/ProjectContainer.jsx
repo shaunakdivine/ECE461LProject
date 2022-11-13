@@ -2,9 +2,11 @@ import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
 import { Button, Col, Row, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { checkInHardware, checkOutHardware } from '../../actions/hardware'
+import { closeToast } from '../../actions/global'
 import {
   addProject,
+  checkinHW,
+  checkoutHW,
   closeAddModal,
   closeDeleteDialog,
   closeDetailModal,
@@ -19,18 +21,20 @@ import {
   openDetailModal,
   openEditModal
 } from '../../actions/project'
+import { AlertToast } from '../general/popups'
 import { ProjectPanel } from './cell'
 import { ProjectDetailPopup, CreateProjectPopup, EditProjectPopup, DeleteProjectPopup } from './popups'
 
 const ConnectProjectContainer = (props) => {
   const {
-    loading, submitting,
+    loading, submitting, errorToastShow, error,
     addModalShow, editModalShow, detailModalShow, deleteDialogShow,
     userId, projects, currentProjectId,
     getProject, addProject, editProject, deleteProject,
-    joinProject, leaveProject, checkInHardware, checkOutHardware,
+    joinProject, leaveProject, checkinHW, checkoutHW,
     openAddModal, openEditModal, openDetailModal, openDeleteDialog,
     closeAddModal, closeEditModal, closeDetailModal, closeDeleteDialog,
+    closeToast,
   } = props;
 
   const handleOpenDetail = id => openDetailModal({ projectId: id });
@@ -60,20 +64,14 @@ const ConnectProjectContainer = (props) => {
     leaveProject({ userId, projectId });
   };
 
-  const onCheckInProject = (projectId, hwId, amount) => {
-    console.log(`check in ${amount} hardware ${hwId} in project ${projectId}`);
-    checkInHardware({
-      userId, projectId, hwId,
-      data: { amount },
-    });
+  const onCheckInProject = ({ projectId, data }) => {
+    console.log(`check in ${data.amount} hardware ${data.hwsetId} in project ${projectId}`);
+    checkinHW({ userId, projectId, data });
   };
 
-  const onCheckOutProject = (projectId, hwId, amount) => {
-    console.log(`check out ${amount} hardware ${hwId} in project ${projectId}`);
-    checkOutHardware({
-      userId, projectId, hwId,
-      data: { amount },
-    });
+  const onCheckOutProject = ({ projectId, data }) => {
+    console.log(`check out ${data.amount} hardware ${data.hwsetId} in project ${projectId}`);
+    checkoutHW({ userId, projectId, data });
   };
 
   // test
@@ -102,6 +100,9 @@ const ConnectProjectContainer = (props) => {
         </Col> */}
         <Col md={4} lg={3}>
           <Button className='w-100' onClick={openAddModal}>Add Project</Button>
+        </Col>
+        <Col>
+          <Button variant='secondary' onClick={() => getProject({ userId })}>Resresh</Button>
         </Col>
       </Row>
       {
@@ -134,11 +135,14 @@ const ConnectProjectContainer = (props) => {
       }
       <ProjectDetailPopup
         show={detailModalShow}
+        submitting={submitting}
         userId={userId}
         projectId={currentProjectId}
         projects={projects}
         onOpenEditModal={openEditModal}
         onOpenDeleteDialog={openDeleteDialog}
+        onCheckIn={onCheckInProject}
+        onCheckOut={onCheckOutProject}
         onClose={closeDetailModal} />
       <DeleteProjectPopup 
         show={deleteDialogShow}
@@ -157,6 +161,12 @@ const ConnectProjectContainer = (props) => {
         submitting={submitting}
         onSubmission={onEditProject}
         onClose={closeEditModal} />
+      <AlertToast
+        show={errorToastShow}
+        variant='danger'
+        timeout={2000}
+        content={error}
+        onClose={closeToast} />
     </>
 
   )
@@ -172,14 +182,16 @@ ConnectProjectContainer.propTypes = {
   userId: PropTypes.string.isRequired,
   projects: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   currentProjectId: PropTypes.number.isRequired,
+  errorToastShow: PropTypes.bool.isRequired,
+  error: PropTypes.string.isRequired,
   getProject: PropTypes.func.isRequired,
   addProject: PropTypes.func.isRequired,
   editProject: PropTypes.func.isRequired,
   joinProject: PropTypes.func.isRequired,
   leaveProject: PropTypes.func.isRequired,
   deleteProject: PropTypes.func.isRequired,
-  checkInHardware: PropTypes.func.isRequired,
-  checkOutHardware: PropTypes.func.isRequired,
+  checkinHW: PropTypes.func.isRequired,
+  checkoutHW: PropTypes.func.isRequired,
   openAddModal: PropTypes.func.isRequired,
   openEditModal: PropTypes.func.isRequired,
   openDetailModal: PropTypes.func.isRequired,
@@ -188,6 +200,7 @@ ConnectProjectContainer.propTypes = {
   closeEditModal: PropTypes.func.isRequired,
   closeDetailModal: PropTypes.func.isRequired,
   closeDeleteDialog: PropTypes.func.isRequired,
+  closeToast: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
@@ -200,6 +213,8 @@ const mapStateToProps = (state) => ({
   userId: state.global.email,
   projects: state.project.projects,
   currentProjectId: state.project.currentProjectId,
+  errorToastShow: state.global.errorToastShow,
+  error: state.global.error,
 })
 
 const mapDispatchToProps = {
@@ -209,8 +224,8 @@ const mapDispatchToProps = {
   deleteProject,
   joinProject,
   leaveProject,
-  checkInHardware,
-  checkOutHardware,
+  checkinHW,
+  checkoutHW,
   openAddModal,
   openEditModal,
   openDetailModal,
@@ -219,6 +234,7 @@ const mapDispatchToProps = {
   closeEditModal,
   closeDetailModal,
   closeDeleteDialog,
+  closeToast,
 }
 
 export const ProjectContainer = connect(mapStateToProps, mapDispatchToProps)(ConnectProjectContainer)

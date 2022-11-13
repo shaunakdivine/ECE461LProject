@@ -95,7 +95,7 @@ router.put("/checkin/:userId/:projectId", async (req, res) => {
       if (currAmount >= 100) {
         res.send({
           status: false,
-          error: `User has reached the hardware check in limit of hw id ${hwsetId} in project id ${projectId}`
+          error: 'User has no available hardware to check in.'
         });
         return;
       }
@@ -183,7 +183,7 @@ router.put("/checkout/:userId/:projectId", async (req, res) => {
     if (!checkedIn) {
       res.send({
         status: false,
-        msg: `no hardware hw id ${hwsetId} to check out`
+        error: `User has no hardware to check out.`
       });
       return;
     }
@@ -194,7 +194,7 @@ router.put("/checkout/:userId/:projectId", async (req, res) => {
     // set the check out cap
     const newAmount = amount > currAmount ? 0 : currAmount - amount;
 
-    // check in newAmount
+    // check out newAmount
     await PROJECT_COLLECTION.updateOne(
       { projectId: parseInt(projectId) },
       {

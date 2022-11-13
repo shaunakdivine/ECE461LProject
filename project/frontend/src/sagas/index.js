@@ -6,18 +6,12 @@ import {
   GLOBAL_REGISTER
 } from '../actions/types/global';
 import {
-  // HARDWARE_ADD,
-  HARDWARE_CHECK_IN,
-  HARDWARE_CHECK_OUT,
-  // HARDWARE_DELETE,
-  // HARDWARE_EDIT,
-  // HARDWARE_GET
-} from '../actions/types/hardware';
-import {
   PROJECT_ADD,
   PROJECT_DELETE,
   PROJECT_EDIT,
   PROJECT_GET,
+  PROJECT_HW_CHECK_IN,
+  PROJECT_HW_CHECK_OUT,
   PROJECT_JOIN,
   PROJECT_LEAVE
 } from '../actions/types/project';
@@ -28,12 +22,8 @@ import {
   globalRegister
 } from './global';
 import {
-  // hardwareAdd,
   hardwareCheckIn,
   hardwareCheckOut,
-  // hardwareDelete,
-  // hardwareEdit,
-  // hardwareGet
 } from './hardware';
 import {
   projectAdd,
@@ -61,11 +51,7 @@ export default function* rootSaga() {
     takeEvery(PROJECT_LEAVE, projectLeave),
 
     // hardware
-    // takeEvery(HARDWARE_GET, hardwareGet),
-    // takeEvery(HARDWARE_ADD, hardwareAdd),
-    // takeEvery(HARDWARE_EDIT, hardwareEdit),
-    // takeEvery(HARDWARE_DELETE, hardwareDelete),
-    takeEvery(HARDWARE_CHECK_IN, hardwareCheckIn),
-    takeEvery(HARDWARE_CHECK_OUT, hardwareCheckOut),
+    takeEvery(PROJECT_HW_CHECK_IN, hardwareCheckIn),
+    takeEvery(PROJECT_HW_CHECK_OUT, hardwareCheckOut),
   ]);
 }

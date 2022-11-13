@@ -5,8 +5,9 @@ import { ProjectHWPanel } from '../cell';
 
 export const ProjectDetailPopup = props => {
   const {
-    show, userId, projectId, projects,
-    onOpenEditModal, onOpenDeleteDialog, onClose,
+    show, submitting, userId, projectId, projects,
+    onOpenEditModal, onOpenDeleteDialog,
+    onClose, onCheckIn, onCheckOut,
   } = props;
   const [project, setProject] = useState({
     id: -1,
@@ -22,7 +23,14 @@ export const ProjectDetailPopup = props => {
       setProject(projects.find(p => p.id === projectId));
     }
   }, [projectId, projects]);
-  
+
+  const handleCheckIn = data => {
+    onCheckIn({ projectId, data });
+  };
+
+  const handleCheckOut = data => {
+    onCheckOut({ projectId, data });
+  };
 
   return (
     <Modal show={show} onHide={onClose} backdrop='static' size='lg' centered>
@@ -38,14 +46,18 @@ export const ProjectDetailPopup = props => {
           <small>Authoirzed Users: {project.authUsers.join(', ')}</small>
         </p>
         <hr/>
-        {/* <p className='text-muted'><small>Authoirzed Users: {project.master}</small></p> */}
+        <h4>Project Summary</h4>
         <p>{project.description}</p>
         <h4 className='mb-3'>Hardware Sets</h4>
         <Row className='g-3 justify-content-center'>
           {
             project.hardwares.map(hardware => (
               <Col xs={12} key={hardware.id}>
-                <ProjectHWPanel projectHW={hardware} />
+                <ProjectHWPanel
+                  submitting={submitting}
+                  projectHW={hardware}
+                  onCheckIn={handleCheckIn}
+                  onCheckOut={handleCheckOut} />
               </Col>
             ))
           }
@@ -69,12 +81,12 @@ export const ProjectDetailPopup = props => {
 
 ProjectDetailPopup.propTypes = {
   show: PropTypes.bool.isRequired,
-  // loading: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
   projectId: PropTypes.number.isRequired,
   projects: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // onCheckIn: PropTypes.func.isRequired,
-  // onCheckOut: PropTypes.func.isRequired,
+  onCheckIn: PropTypes.func.isRequired,
+  onCheckOut: PropTypes.func.isRequired,
   onOpenEditModal: PropTypes.func.isRequired,
   onOpenDeleteDialog: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
