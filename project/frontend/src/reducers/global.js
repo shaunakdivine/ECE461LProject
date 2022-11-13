@@ -10,6 +10,7 @@ import {
   GLOBAL_REGISTER_FAIL,
 } from "../actions/types/global";
 import {
+  PROJECT_ADD_AUTH_USER_FAIL,
   PROJECT_ADD_FAIL,
   PROJECT_DELETE_FAIL,
   PROJECT_EDIT_FAIL,
@@ -68,7 +69,12 @@ export default (state = initialState, { type, payload }) => {
   case PROJECT_LEAVE_FAIL:
   case PROJECT_HW_CHECK_IN_FAIL:
   case PROJECT_HW_CHECK_OUT_FAIL:
-    return { ...state, errorToastShow: true, error: payload.error }
+  case PROJECT_ADD_AUTH_USER_FAIL:
+    return {
+      ...state,
+      errorToastShow: true,
+      error: payload.error != undefined ? payload.error : ''
+    }
 
   default:
     return state

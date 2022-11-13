@@ -4,9 +4,11 @@ import { Button, Col, Row, Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { closeToast } from '../../actions/global'
 import {
+  addAuthUser,
   addProject,
   checkinHW,
   checkoutHW,
+  closeAddAuthUserModal,
   closeAddModal,
   closeDeleteDialog,
   closeDetailModal,
@@ -16,6 +18,7 @@ import {
   getProject,
   joinProject,
   leaveProject,
+  openAddAuthUserModal,
   openAddModal,
   openDeleteDialog,
   openDetailModal,
@@ -23,17 +26,17 @@ import {
 } from '../../actions/project'
 import { AlertToast } from '../general/popups'
 import { ProjectPanel } from './cell'
-import { ProjectDetailPopup, CreateProjectPopup, EditProjectPopup, DeleteProjectPopup } from './popups'
+import { ProjectDetailPopup, CreateProjectPopup, EditProjectPopup, DeleteProjectPopup, AddUserPopup } from './popups'
 
 const ConnectProjectContainer = (props) => {
   const {
     loading, submitting, errorToastShow, error,
-    addModalShow, editModalShow, detailModalShow, deleteDialogShow,
+    addModalShow, editModalShow, addAuthUserModalShow, detailModalShow, deleteDialogShow,
     userId, projects, currentProjectId,
     getProject, addProject, editProject, deleteProject,
-    joinProject, leaveProject, checkinHW, checkoutHW,
-    openAddModal, openEditModal, openDetailModal, openDeleteDialog,
-    closeAddModal, closeEditModal, closeDetailModal, closeDeleteDialog,
+    joinProject, leaveProject, checkinHW, checkoutHW, addAuthUser,
+    openAddModal, openEditModal, openDetailModal, openDeleteDialog, openAddAuthUserModal,
+    closeAddModal, closeEditModal, closeDetailModal, closeDeleteDialog, closeAddAuthUserModal,
     closeToast,
   } = props;
 
@@ -74,11 +77,17 @@ const ConnectProjectContainer = (props) => {
     checkoutHW({ userId, projectId, data });
   };
 
+  const onAddAuthUser = newUserId => {
+    console.log(`add auth user of project ${currentProjectId} by ${userId} adding ${newUserId}`);
+    addAuthUser({ projectId: currentProjectId, masterId: userId, newUserId });
+  }
+
   // test
   console.debug(
     onCheckInProject,
     onCheckOutProject,
     editProject,
+    onAddAuthUser,
   );
 
   useEffect(() => {
@@ -141,6 +150,7 @@ const ConnectProjectContainer = (props) => {
         projects={projects}
         onOpenEditModal={openEditModal}
         onOpenDeleteDialog={openDeleteDialog}
+        onOpenAddAuthUserModal={openAddAuthUserModal}
         onCheckIn={onCheckInProject}
         onCheckOut={onCheckOutProject}
         onClose={closeDetailModal} />
@@ -161,6 +171,11 @@ const ConnectProjectContainer = (props) => {
         submitting={submitting}
         onSubmission={onEditProject}
         onClose={closeEditModal} />
+      <AddUserPopup
+        show={addAuthUserModalShow}
+        submitting={submitting}
+        onSubmission={onAddAuthUser}
+        onClose={closeAddAuthUserModal} />
       <AlertToast
         show={errorToastShow}
         variant='danger'
@@ -177,6 +192,7 @@ ConnectProjectContainer.propTypes = {
   submitting: PropTypes.bool.isRequired,
   addModalShow: PropTypes.bool.isRequired,
   editModalShow: PropTypes.bool.isRequired,
+  addAuthUserModalShow: PropTypes.bool.isRequired,
   detailModalShow: PropTypes.bool.isRequired,
   deleteDialogShow: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
@@ -192,12 +208,15 @@ ConnectProjectContainer.propTypes = {
   deleteProject: PropTypes.func.isRequired,
   checkinHW: PropTypes.func.isRequired,
   checkoutHW: PropTypes.func.isRequired,
+  addAuthUser: PropTypes.func.isRequired,
   openAddModal: PropTypes.func.isRequired,
   openEditModal: PropTypes.func.isRequired,
   openDetailModal: PropTypes.func.isRequired,
   openDeleteDialog: PropTypes.func.isRequired,
+  openAddAuthUserModal: PropTypes.func.isRequired,
   closeAddModal: PropTypes.func.isRequired,
   closeEditModal: PropTypes.func.isRequired,
+  closeAddAuthUserModal: PropTypes.func.isRequired,
   closeDetailModal: PropTypes.func.isRequired,
   closeDeleteDialog: PropTypes.func.isRequired,
   closeToast: PropTypes.func.isRequired,
@@ -208,13 +227,14 @@ const mapStateToProps = (state) => ({
   submitting: state.project.submitting,
   addModalShow: state.project.addProjectModalShow,
   editModalShow: state.project.editProjectModalShow,
+  addAuthUserModalShow: state.project.addAuthUserModalShow,
   detailModalShow: state.project.detailModalShow,
   deleteDialogShow: state.project.deleteProjectDialogShow,
-  userId: state.global.email,
   projects: state.project.projects,
   currentProjectId: state.project.currentProjectId,
   errorToastShow: state.global.errorToastShow,
   error: state.global.error,
+  userId: state.global.email,
 })
 
 const mapDispatchToProps = {
@@ -226,12 +246,15 @@ const mapDispatchToProps = {
   leaveProject,
   checkinHW,
   checkoutHW,
+  addAuthUser,
   openAddModal,
   openEditModal,
   openDetailModal,
   openDeleteDialog,
+  openAddAuthUserModal,
   closeAddModal,
   closeEditModal,
+  closeAddAuthUserModal,
   closeDetailModal,
   closeDeleteDialog,
   closeToast,

@@ -7,6 +7,7 @@ import {
 } from '../actions/types/global';
 import {
   PROJECT_ADD,
+  PROJECT_ADD_AUTH_USER,
   PROJECT_DELETE,
   PROJECT_EDIT,
   PROJECT_GET,
@@ -27,6 +28,7 @@ import {
 } from './hardware';
 import {
   projectAdd,
+  projectAddAuthUser,
   projectDelete,
   projectEdit,
   projectGet,
@@ -49,6 +51,7 @@ export default function* rootSaga() {
     takeEvery(PROJECT_DELETE, projectDelete),
     takeEvery(PROJECT_JOIN, projectJoin),
     takeEvery(PROJECT_LEAVE, projectLeave),
+    takeEvery(PROJECT_ADD_AUTH_USER, projectAddAuthUser),
 
     // hardware
     takeEvery(PROJECT_HW_CHECK_IN, hardwareCheckIn),

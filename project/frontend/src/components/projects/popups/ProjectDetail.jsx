@@ -6,7 +6,7 @@ import { ProjectHWPanel } from '../cell';
 export const ProjectDetailPopup = props => {
   const {
     show, submitting, userId, projectId, projects,
-    onOpenEditModal, onOpenDeleteDialog,
+    onOpenEditModal, onOpenDeleteDialog, onOpenAddAuthUserModal,
     onClose, onCheckIn, onCheckOut,
   } = props;
   const [project, setProject] = useState({
@@ -70,7 +70,7 @@ export const ProjectDetailPopup = props => {
           {
             userId === project.master &&
             <Col lg={6} xl={4}>
-              <Button className='w-100' variant='primary' onClick={() => { }}>Add Authorized Users (WIP)</Button>
+              <Button className='w-100' variant='primary' onClick={() => onOpenAddAuthUserModal()}>Add Authorized Users</Button>
             </Col>
           }
         </Row>
@@ -89,5 +89,6 @@ ProjectDetailPopup.propTypes = {
   onCheckOut: PropTypes.func.isRequired,
   onOpenEditModal: PropTypes.func.isRequired,
   onOpenDeleteDialog: PropTypes.func.isRequired,
+  onOpenAddAuthUserModal: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };

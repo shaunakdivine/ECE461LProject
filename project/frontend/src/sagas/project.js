@@ -1,7 +1,10 @@
 import { all, call, put } from "redux-saga/effects";
 import {
+  PROJECT_ADD_AUTH_USER_FAIL,
+  PROJECT_ADD_AUTH_USER_SUCCESS,
   PROJECT_ADD_FAIL,
   PROJECT_ADD_SUCCESS,
+  PROJECT_CLOSE_ADD_AUTH_USER_MODAL,
   PROJECT_CLOSE_ADD_MODAL,
   PROJECT_CLOSE_DELETE_DIALOG,
   PROJECT_CLOSE_DETAIL_MODAL,
@@ -18,7 +21,7 @@ import {
   PROJECT_LEAVE_FAIL,
   PROJECT_LEAVE_SUCCESS
 } from "../actions/types/project";
-import { addProjectAPI, deleteProjectAPI, editProjectAPI, getProjectsAPI, joinProjectAPI, leaveProjectAPI } from "../apis/project";
+import { addAuthUserAPI, addProjectAPI, deleteProjectAPI, editProjectAPI, getProjectsAPI, joinProjectAPI, leaveProjectAPI } from "../apis/project";
 // import { dummyTimeAPI } from "../apis/test";
 
 export function* projectGet(action) {
@@ -140,5 +143,26 @@ export function* projectLeave(action) {
     }
   } catch (error) {
     yield put({ type: PROJECT_LEAVE_FAIL, payload: { error: error.toString() } })
+  }
+}
+
+export function* projectAddAuthUser(action) {
+  const body = action.payload;
+
+  try {
+    const response = yield call(addAuthUserAPI, body);
+
+    if (response.status) {
+      yield put({ type: PROJECT_CLOSE_ADD_AUTH_USER_MODAL });
+      yield put({ type: PROJECT_ADD_AUTH_USER_SUCCESS });
+      yield all([
+        put({ type: PROJECT_CLOSE_DETAIL_MODAL }),
+        put({ type: PROJECT_GET, payload: { userId: body.masterId } }),
+      ]);
+    } else {
+      yield put({ type: PROJECT_ADD_AUTH_USER_FAIL, payload: { error: response.error } });
+    }
+  } catch (error) {
+    yield put({ type: PROJECT_ADD_AUTH_USER_FAIL, payload: { error: error.toString() } })
   }
 }

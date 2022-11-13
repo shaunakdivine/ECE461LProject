@@ -38,3 +38,9 @@ export const leaveProjectAPI = ({ userId, projectId }) =>
   axios.put(`${BASE_URL}/leave/${userId}/${projectId}`)
     .then(response => response.data)
     .catch(catchAPIerror);
+
+// 2.7
+export const addAuthUserAPI = ({ projectId, masterId, newUserId }) =>
+  axios.put(`${BASE_URL}/addUser/${projectId}/${masterId}/${newUserId}`)
+    .then(response => response.data)
+    .catch(catchAPIerror);

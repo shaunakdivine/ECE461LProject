@@ -1,7 +1,11 @@
 import {
   PROJECT_ADD,
+  PROJECT_ADD_AUTH_USER,
+  PROJECT_ADD_AUTH_USER_FAIL,
+  PROJECT_ADD_AUTH_USER_SUCCESS,
   PROJECT_ADD_FAIL,
   PROJECT_ADD_SUCCESS,
+  PROJECT_CLOSE_ADD_AUTH_USER_MODAL,
   PROJECT_CLOSE_ADD_MODAL,
   PROJECT_CLOSE_DELETE_DIALOG,
   PROJECT_CLOSE_DETAIL_MODAL,
@@ -27,6 +31,7 @@ import {
   PROJECT_LEAVE,
   PROJECT_LEAVE_FAIL,
   PROJECT_LEAVE_SUCCESS,
+  PROJECT_OPEN_ADD_AUTH_USER_MODAL,
   PROJECT_OPEN_ADD_MODAL,
   PROJECT_OPEN_DELETE_DIALOG,
   PROJECT_OPEN_DETAIL_MODAL,
@@ -36,10 +41,11 @@ import {
 const initialState = {
   loading: false,  // whole page reloading
   submitting: false,  // operation submitting
+  detailModalShow: false,
   addProjectModalShow: false,
   editProjectModalShow: false,
+  addAuthUserModalShow: false,
   deleteProjectDialogShow: false,
-  detailModalShow: false,
   projects: [],
   currentProjectId: -1,
 }
@@ -54,6 +60,7 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_DELETE:
     case PROJECT_HW_CHECK_IN:
     case PROJECT_HW_CHECK_OUT:
+    case PROJECT_ADD_AUTH_USER:
       return { ...state, submitting: true }
 
     case PROJECT_JOIN:
@@ -69,6 +76,7 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_LEAVE_SUCCESS:
     case PROJECT_HW_CHECK_IN_SUCCESS:
     case PROJECT_HW_CHECK_OUT_SUCCESS:
+    case PROJECT_ADD_AUTH_USER_SUCCESS:
       return { ...state, submitting: false }
     
     case PROJECT_DELETE_SUCCESS:
@@ -84,6 +92,7 @@ export default (state = initialState, { type, payload }) => {
     case PROJECT_LEAVE_FAIL:
     case PROJECT_HW_CHECK_IN_FAIL:
     case PROJECT_HW_CHECK_OUT_FAIL:
+    case PROJECT_ADD_AUTH_USER_FAIL:
       return { ...state, submitting: false }
 
     case PROJECT_OPEN_DETAIL_MODAL:
@@ -94,6 +103,9 @@ export default (state = initialState, { type, payload }) => {
 
     case PROJECT_OPEN_EDIT_MODAL:
       return { ...state, detailModalShow: false, editProjectModalShow: true }
+    
+    case PROJECT_OPEN_ADD_AUTH_USER_MODAL:
+      return { ...state, detailModalShow: false, addAuthUserModalShow: true }
 
     case PROJECT_OPEN_DELETE_DIALOG:
       return { ...state, detailModalShow: false, deleteProjectDialogShow: true }
@@ -106,6 +118,9 @@ export default (state = initialState, { type, payload }) => {
 
     case PROJECT_CLOSE_EDIT_MODAL:
       return { ...state, detailModalShow: true, editProjectModalShow: false }
+
+    case PROJECT_CLOSE_ADD_AUTH_USER_MODAL:
+      return { ...state, detailModalShow: true, addAuthUserModalShow: false }
 
     case PROJECT_CLOSE_DELETE_DIALOG:
       return { ...state, detailModalShow: true, deleteProjectDialogShow: false }
